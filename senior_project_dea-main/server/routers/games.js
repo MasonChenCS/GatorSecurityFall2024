@@ -50,6 +50,10 @@ const { validateCYOAQuestion, validateDNDQuestion, validateMatchingQuestion } = 
 //Overarching Game Question Routes
 router.get('/getcount', getGameCount);
 
+router.get('/getByTopic/learn/:topic', getGameByTopic);
+
+router.get('/getByTopic/game/:topic', getGameByTopic);
+
 router.get('/getByTopic/:topic', getGameByTopic);
 
 router.get('/getByType/:type', getGameByType);

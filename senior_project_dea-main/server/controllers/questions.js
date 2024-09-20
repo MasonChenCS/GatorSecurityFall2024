@@ -93,6 +93,56 @@ const getByTopic = (async(req,res)=>{
     }
 })
 
+const getByTopicLearn = (async(req,res)=>{
+    //Check administrative status
+    let isAdmin = await privileges.isAdmin(req);
+    try {
+        //If the topic is a numerical id
+		if(!isNaN(parseInt(req.params.topic))) {
+            //Find specific question information in database and send it
+            TraditionalQuestion.find({topic: req.params.topic.toString(), displayType: "learn"}).then((data)=>{
+                //Ensure answers aren't sent to the frontend unless you are an admin
+                if(Number(isAdmin) !== Number(1)) {
+                    for(const element of data) {
+                        element.answer = "The answer is available only as an administrator.";
+                    }
+                }
+                res.send({status:200, data:data});
+            });
+        }
+    //Catch any errors
+    } catch(error) {
+        //Send Status Code 500 (Internal Server Error)
+        res.sendStatus(500);
+        return;
+    }
+})
+
+const getByTopicGame = (async(req,res)=>{
+    //Check administrative status
+    let isAdmin = await privileges.isAdmin(req);
+    try {
+        //If the topic is a numerical id
+		if(!isNaN(parseInt(req.params.topic))) {
+            //Find specific question information in database and send it
+            TraditionalQuestion.find({topic: req.params.topic.toString(), displayType: "game"}).then((data)=>{
+                //Ensure answers aren't sent to the frontend unless you are an admin
+                if(Number(isAdmin) !== Number(1)) {
+                    for(const element of data) {
+                        element.answer = "The answer is available only as an administrator.";
+                    }
+                }
+                res.send({status:200, data:data});
+            });
+        }
+    //Catch any errors
+    } catch(error) {
+        //Send Status Code 500 (Internal Server Error)
+        res.sendStatus(500);
+        return;
+    }
+})
+
 /**
  * Delete traditional question by id endpoint controller
  * @function
@@ -260,6 +310,8 @@ const create = (async(req,res)=>{
 module.exports = {
     getCount,
     getByTopic,
+    getByTopicLearn,
+    getByTopicGame,
     deleteById,
     create,
     update

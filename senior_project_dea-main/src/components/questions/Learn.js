@@ -43,7 +43,7 @@ function LearnPage() {
 
   //Function that pulls the traditional questions from the backend
   const getQuestions = (topic_, setQuestionData_) => {
-    apiRequest("/questions/get/" + topic_).then((res)=>res.json())
+    apiRequest("/questions/get/learn/" + topic_).then((res)=>res.json())
       .then((data)=>{
         setQuestionData_(data);
       })

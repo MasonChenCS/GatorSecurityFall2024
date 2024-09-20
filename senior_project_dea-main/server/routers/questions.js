@@ -6,6 +6,8 @@ const router = express.Router()
 const {
     getCount,
     getByTopic,
+    getByTopicLearn,
+    getByTopicGame,
     deleteById,
     update,
     create,
@@ -17,6 +19,10 @@ const { validateQuestion } = require('../validators/questionValidator')
 //Overarching Traditional Question Routes (NOTE: Each / should be preceded by /questions when testing with Postman e.g. localhost:5000/questions/getcount)
 
 router.get('/getcount/:displayType', getCount)
+
+router.get('/get/learn/:topic/', getByTopicLearn)
+
+router.get('/get/game/:topic/', getByTopicGame)
 
 router.get('/get/:topic/', getByTopic)
 

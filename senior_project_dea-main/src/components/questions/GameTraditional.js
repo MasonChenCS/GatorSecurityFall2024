@@ -23,7 +23,7 @@ function GameTraditionalPage() {
   
     //Function that retrieves all the Fill in the Blank Questions
     const getQuestions = (topic_, setQuestionData_) => {
-      apiRequest("/questions/get/" + topic_ + '/game').then((res)=>res.json())
+      apiRequest("/questions/get/game/" + topic_).then((res)=>res.json())
         .then((data)=>{
           setQuestionData_(data);
         })

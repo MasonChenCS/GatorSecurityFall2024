@@ -67,7 +67,7 @@ router.put('/update/:id', updateGame);
 router.post('/create', createGame);
 
 //CYOA Subquestion Routes
-router.post('/cyoa/getById/:id', getCYOAById);
+router.get('/cyoa/getById/:id', getCYOAById);
 
 router.delete('/cyoa/delete/:id', deleteCYOAById);
 

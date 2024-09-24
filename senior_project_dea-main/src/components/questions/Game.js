@@ -65,40 +65,40 @@ function GamePage() {
     //If DND game questions have been loaded from the backend
     if(dndGameQuestions.length !== 0) {
         //Populate the DND card with every DND question
-        for(let i = 0; i < dndGameQuestions.data.length; i++) {
-            dndQuestionDisplay.push(
-                <div key={i}>
-                    <a href={`./gameDND/${dndGameQuestions.data[i]._id}`} className="btn btn-primary">
-                        {dndGameQuestions.data[i].name}
-                    </a>
-                    <div style={spaceAfterQ} />
-                </div>
-            );
-        }
-        // dndQuestionDisplay.push(
-        //     <div key={1}>
-        //         <a href="https://fernfeather.github.io/DragAndDropGroup/" class="btn btn-primary">Asymmetric Encryption</a>
-        //         <div style={spaceAfterQ} />
+        // for(let i = 0; i < dndGameQuestions.data.length; i++) {
+        //     dndQuestionDisplay.push(
+        //         <div key={i}>
+        //             <a href={`./gameDND/${dndGameQuestions.data[i]._id}`} className="btn btn-primary">
+        //                 {dndGameQuestions.data[i].name}
+        //             </a>
+        //             <div style={spaceAfterQ} />
+        //         </div>
+        //     );
+        // }
+        dndQuestionDisplay.push(
+            <div key={1}>
+                <a href="https://fernfeather.github.io/DragAndDropGroup/" class="btn btn-primary">Asymmetric Encryption</a>
+                <div style={spaceAfterQ} />
     
-        //         <a href="https://fernfeather.github.io/DragAndDropCyberCrimeLaws/" class="btn btn-primary">Cybercrime Laws</a>
-        //         <div style={spaceAfterQ} />
+                <a href="https://fernfeather.github.io/DragAndDropCyberCrimeLaws/" class="btn btn-primary">Cybercrime Laws</a>
+                <div style={spaceAfterQ} />
                     
-        //         <a href="https://fernfeather.github.io/DragAndDropNetworkConfig/" class="btn btn-primary">Network Configuration Security and Fundamentals of Secure Design</a>
-        //         <div style={spaceAfterQ} />
+                <a href="https://fernfeather.github.io/DragAndDropNetworkConfig/" class="btn btn-primary">Network Configuration Security and Fundamentals of Secure Design</a>
+                <div style={spaceAfterQ} />
     
-        //         <a href="https://fernfeather.github.io/DragAndDropSSH/" class="btn btn-primary">SSH Handshake</a>
-        //         <div style={spaceAfterQ} />
+                <a href="https://fernfeather.github.io/DragAndDropSSH/" class="btn btn-primary">SSH Handshake</a>
+                <div style={spaceAfterQ} />
     
-        //         <a href="https://fernfeather.github.io/DragAndDropCyberCIA/" class="btn btn-primary">CIA</a>
-        //         <div style={spaceAfterQ} />
+                <a href="https://fernfeather.github.io/DragAndDropCyberCIA/" class="btn btn-primary">CIA</a>
+                <div style={spaceAfterQ} />
                     
-        //         <a href="https://fernfeather.github.io/DragAndDropCyberCrimeAttackTree/" class="btn btn-primary">Attack Tree</a>
-        //         <div style={spaceAfterQ} />
+                <a href="https://fernfeather.github.io/DragAndDropCyberCrimeAttackTree/" class="btn btn-primary">Attack Tree</a>
+                <div style={spaceAfterQ} />
     
-        //         <a href="https://fernfeather.github.io/DragAndDropPassword/" class="btn btn-primary">Password Security</a>
-        //         <div style={spaceAfterQ} />
-        //     </div>
-        // );
+                <a href="https://fernfeather.github.io/DragAndDropPassword/" class="btn btn-primary">Password Security</a>
+                <div style={spaceAfterQ} />
+            </div>
+        );
     }
 
     let matchingQuestionDisplay = [];

@@ -22,7 +22,7 @@ export default function MatchingCard( {card, handleChoice, flipped, disabled, wo
         minHeight: 200,
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     }
 
     const postWin = {
@@ -38,10 +38,22 @@ export default function MatchingCard( {card, handleChoice, flipped, disabled, wo
         <div className="card matchCard" style={{minWidth:200, minHeight:200, marginBottom: 50}}>
             {/*This code allows the styling of the card to changes based off of its "flipped" status*/}
             <div className={flipped ? "flipped" : ""}>
-                <div className="back" onClick={handleClick} style={{width:200, height:200, display:"flex", alignItems:"center"}}>
+                <div 
+                className="back" 
+                onClick={handleClick} 
+                style={{
+                    width:200, 
+                    height:200, 
+                    display:"flex", 
+                    alignItems:"center", 
+                    backgroundColor: card.matched ? 'rgba(${card.color})' : "white"
+                    }}>
                     <img src={gator} alt="gator logo" style={{width:"100%"}}/>
                 </div>
-                <div className="front" style={won ? postWin : preWin}>
+                <div className="front" style={{
+                    ...(won ? postWin : preWin),
+                    backgroundColor: card.matched ? `rgba(${card.color})` : "white"
+                    }}>
                     <p style={{maxWidth: 180, }}>
                         {card.text}
                     </p>

@@ -152,10 +152,8 @@ function Matching () {
                     qid: gameQuestionData._id, 
             }),
             }).then((res) => {
-            //If request was a success
             if(res.status === 204) {
                 setWon(true);
-                alert("Congratulations! You beat the game!");
             }
             else {
                 alert("Something went wrong with the backend!");
@@ -163,6 +161,14 @@ function Matching () {
             })}
         }
     }, [gameQuestionData._id, numCorrect, vocab, vocab.length]);
+
+    //alert user won when the game is completed added so final color is revealed before the alert
+    useEffect(() => {
+        if(won){
+            //add a delay to ensure the final color is revealed before the alert
+            setTimeout(() => {alert("Congratulations! You beat the game!");},500);
+        }
+    }, [won]);
 
     //evaluates the players choices once two cards have been chosen
     useEffect(() => {
@@ -173,9 +179,12 @@ function Matching () {
             if(choiceOne.val === choiceTwo.val){
                 resetChoices();
                 const temp = cards.map(card => {
+
+                    //If cards match
                     if(card.val === choiceOne.val){
                         return {...card, matched: true};
                     }
+                    //Else, not matched
                     else{
                         return card;
                     }

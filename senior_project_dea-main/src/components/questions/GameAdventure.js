@@ -3,12 +3,14 @@ import GetConfig from '../../Config.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../componentStyling/buttons.css';
 import apiRequest from '../../util/api.js';
+import {Alert} from "../Alert.js";
 
 function GameAdventurePage() {
 
     const [count, setCounter] = React.useState(0);
     const [gameQuestionData, setGameQuestionData] = React.useState('');
     const [CYOAQuestionData, setCYOAQuestionData] = React.useState('');
+    const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
 
     //Loads the data from database once
     React.useEffect(()=> {
@@ -64,11 +66,11 @@ function GameAdventurePage() {
             //If this is not the last question
             if (gameQuestionData.questionData.length !== count + 1) {
                 if (CYOAQuestionData.explanation === "") {
-                    alert("Correct!");
+                    getProps({variant: "success", title: "Correct", message: "You have answered the question correctly!"});
                 }
                 else {
                     //Give correct alert to end-user, and update page to next question
-                    alert("Correct!\n\nAnswer explanation: " + CYOAQuestionData.explanation);
+                    getProps({variant: "success", title: "Correct", message: CYOAQuestionData.explanation});
                 }
                 increase();
                 getCYOAQuestion(gameQuestionData.questionData[count + 1], setCYOAQuestionData);
@@ -84,23 +86,23 @@ function GameAdventurePage() {
                 }).then((res) => {
                     if(res.status === 204) {
                         if (CYOAQuestionData.explanation === "") {
-                            alert("Congratulations! You beat the game!");
+                            getProps({variant: "success", title: "Victory", message: "Congratulations! You beat the game! Automatically returning in 15 seconds."});
                         }
                         else {
                             //Congratulate end-user, and redirect them to game selection page
-                            alert("Congratulations! You beat the game!\n\nAnswer explanation: " + CYOAQuestionData.explanation);
+                            getProps({variant: "success", title: "Victory", message: "Congratulations! You beat the game! Automatically returning in 15 seconds.\n\n" + CYOAQuestionData.explanation});
                         }
-                        window.location.href="/game"
+                        setTimeout(() => {window.location.href="/game"}, 15000);
                     }
                     else {
-                        alert("Something went wrong with the backend!");
+                        getProps({variant: "error", title: "Back-End Error", message: "Something went wrong with the back-end!"});
                     }
                 })
             } 
         }
         //Else option does not match, alert end-user incorrect
         else {
-            alert("Incorrect!");
+            getProps({variant: "error", title: "Incorrect", message: "Sorry, please try again!"});
         }
     }
 
@@ -156,6 +158,7 @@ function GameAdventurePage() {
                 {/* btn-block - List of buttons to represent options */}
                 <div className="btn-block img-fluid shadow-4 d-grid gap-2 col-6 mx-auto justify-content-center" style={buttonWidth}>
                 {/* A loop that dynamically populates buttons with the current CYOAQuestionData options */}
+                {isAlertVisible ? <div><br></br><AlertMessage /></div> : ""}
                 <div style={{borderColor: "#2C74B3", borderStyle: "solid", borderSize: "10px", padding:"20px", borderRadius: "25px"}}>
                     {CYOAQuestionData.options.map((option, index) => (
                         <div key={option}>

@@ -15,7 +15,8 @@ function TradQuestion({ qdata, num }) {
 
     const [answer, setSelection] = React.useState('');
     const onChange = e => {
-      setSelection(e.target.value)
+      setSelection(e.target.value);
+      setAlertVisible(false);
     }
 
     const createAnswerOptions = (type) => {
@@ -90,6 +91,7 @@ function TradQuestion({ qdata, num }) {
     if(qdata.type === 2 || qdata.type === 3) {
         return (
             <>
+                {isAlertVisible ? <div><br></br><AlertMessage /></div> : ""}
                 <div style={spaceAfterQ}></div>
                 {num}. {qdata.question}
                 <div style={spaceAfterQ}></div>

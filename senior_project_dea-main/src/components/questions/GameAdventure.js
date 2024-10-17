@@ -109,7 +109,7 @@ function GameAdventurePage() {
                                     getProps({
                                         variant: "success",
                                         title: `Victory! You scored ${gameScore + 1}/${totalQuestions}.`,
-                                        message: `Congratulations! You finished the game!\nAutomatically returning in 15 seconds.`,
+                                        message: `Congratulations! You finished the game!`,
                                         continueCallback: () => {
                                             setAlertVisible(false);
                                             window.location.href = "/game";
@@ -128,7 +128,7 @@ function GameAdventurePage() {
                                     getProps({
                                         variant: "success",
                                         title: `Victory! You scored ${gameScore + 1}/${totalQuestions}.`,
-                                        message: `Congratulations! You finished the game!\nAutomatically returning in 15 seconds.`,
+                                        message: `Congratulations! You finished the game!`,
                                         continueCallback: () => {
                                             setAlertVisible(false);
                                             window.location.href = "/game";
@@ -136,12 +136,7 @@ function GameAdventurePage() {
                                     });
                                 }
                             });
-        
-                        
-                        }
-                        setTimeout(() => {
-                            window.location.href = "/game";
-                        }, 15000);
+                        };
                     } else {
                         getProps({
                             variant: "error",
@@ -178,7 +173,7 @@ function GameAdventurePage() {
                             getProps({
                                 variant: "success",
                                 title: `Victory! You scored ${gameScore}/${totalQuestions}.`,
-                                message: `Congratulations! You finished the game!\nAutomatically returning in 15 seconds.`,
+                                message: `Congratulations! You finished the game!`,
                                 continueCallback: () => {
                                     setAlertVisible(false);
                                     window.location.href = "/game";
@@ -233,7 +228,7 @@ function GameAdventurePage() {
                 <div style={styles.spaceAfterQ}></div>
                 <div className="btn-block img-fluid shadow-4 d-grid gap-2 col-6 mx-auto justify-content-center" style={styles.buttonWidth}>
                     {isAlertVisible && <div><br /><AlertMessage /></div>}
-                    <div style={{ fontSize: "1rem" }}> {selectedOption==correctOptionIndex ? ("Nice job!") : (<>You have <span className="bold-text">{attemptCount}</span> {attemptCount === 1 ? "attempt" : "attempts"} left</>) }</div>
+                    <div style={{ fontSize: "1rem" }}> {selectedOption===correctOptionIndex ? ("Nice job!") : (<>You have <span className="bold-text">{attemptCount}</span> {attemptCount === 1 ? "attempt" : "attempts"} left</>) }</div>
                     <div className="option-box">
                         {CYOAQuestionData.options.map((option, index) => (
                             <div key={option}>

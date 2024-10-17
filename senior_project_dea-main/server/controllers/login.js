@@ -47,6 +47,7 @@ const register = (async (req, res) => {
             lname,
             email,
             password:encryptedPass,
+            isAdmin:true
         });
         res.send({status:"ok"});
         return;

@@ -223,6 +223,11 @@ function GamePage() {
                     <button onClick={MatchingInstructions} className="btn btn-primary orange">How To Play</button>
                     <div style={spaceAfterQ} />
                     {matchingQuestionDisplay}
+                    <div>
+                    </div>
+                    <a className="btn btn-more">
+                        More Games to Come!
+                    </a>
                 </div>
             </div>
             {/* This is the Fill in the Blank Card */}

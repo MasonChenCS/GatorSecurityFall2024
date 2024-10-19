@@ -242,6 +242,13 @@ function GamePage() {
                     <a href="./gameTraditional" className="btn btn-primary">
                         Fill in the Blank Games
                     </a>
+                    <div>
+                        <h5>
+                        </h5>
+                    </div>
+                    <a className="btn btn-more">
+                        More Games to Come!
+                    </a>
                 </div>
             </div>
         </div>

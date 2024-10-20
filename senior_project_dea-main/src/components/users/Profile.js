@@ -17,12 +17,43 @@ export default class ProfilePage extends React.Component {
     }
     
     componentDidMount(){
+      //Function that pulls the number of games in each game type except for Fill in the Blank Questions
+      apiRequest("/games/getGameTypeCount").then((res)=>res.json())
+      .then(data=> {
+        this.setState({maxBadgeOtherCount: data.data})
+      });
+
+      //Function that pulls the number of FITB games
+      apiRequest("/games/getFITBCount").then((res)=>res.json())
+      .then(data=> {
+        this.setState({maxBadgeFITBCount: data.data})
+      });
 
       //Function that pulls the current user's profile info from the backend
       apiRequest("/users/userInfo").then((res)=>res.json())
       .then(data=>{
         //Set userInfo with data retrieved from backend
         this.setState({userInfo: data.data.dbUserData});
+        //Function that pulls the number of games the user has completed in each game type except for Fill in The Blank Questions
+        apiRequest("/games/getGameTypeCountByUser", {
+          method: "POST",
+          body:JSON.stringify({
+            gameList: data.data.dbUserData.gamescore
+        })})
+        .then((res)=>res.json())
+        .then(data=> {
+          this.setState({userBadgeOtherCount: data.data})
+        });
+        //Function that pulls the number of FITB games the user has completed
+        apiRequest("/games/getFITBCountByUser", {
+          method: "POST",
+          body:JSON.stringify({
+            fitbList: data.data.dbUserData.gamescore
+        })})
+        .then((res)=>res.json())
+        .then(data=> {
+          this.setState({userBadgeFITBCount: data.data})
+        });
       });
 
       //Function that pulls the total number of questions from the backend
@@ -32,7 +63,7 @@ export default class ProfilePage extends React.Component {
         this.setState({learnQuestionCount: data.data})
       });
 
-      //Function that pulls the total number of questions from the backend
+      //Function that pulls the total number of fill in the blank questions from the backend
       apiRequest("/questions/getCount/game").then((res)=>res.json())
       .then(data=>{
         //Set the total number of fill in the blank questions to gameQuestionCount
@@ -51,11 +82,11 @@ export default class ProfilePage extends React.Component {
     render(){
       //CSS For Profile Page
       const container = {
-        display: "block",        
+        display: "block",
         marginLeft: "auto",
-        marginRight: "auto",        
+        marginRight: "auto",
         fontFamily:"Gluten",
-        paddingTop: "50px"
+        paddingTop: "0px"
       };
       
       //If userInfo doesn't exist, return a blank page
@@ -72,26 +103,47 @@ export default class ProfilePage extends React.Component {
       let learnScore = this.state.userInfo["learnscore"].length;
       let learnMax = this.state.learnQuestionCount;
       let learnPercentage = Math.floor(learnScore/learnMax * 100);
+      let levelNames = ['Beginner', 'Novice', 'Intermediate', 'Expert', 'Guru']
+      let numLevels = levelNames.length;
+      let projectScore = learnScore + gameScore;
+      let projectMax = learnMax + gameMax;
+      let xpRequiredPerLevel = Math.ceil(projectMax/numLevels);
+      let userLevelIndex = Math.floor(projectScore/xpRequiredPerLevel);
+      let userLevelName = 0;
+      if (userLevelIndex >= numLevels)
+        userLevelIndex = numLevels - 1;
+      userLevelName = levelNames[userLevelIndex];
 
+      let userBadgeDict = {
+        "learn": [0, 0, "Cyber-Scholar"],
+        "cyoa": [0, 0, "Seasoned Adventurer"],
+        "dnd": [0, 0, "Drag And Drop Until It's Done"],
+        "mmc": [0, 0, "Matchmaker"],
+        "fitb": [0, 0, "Blanks? Filled!"]
+      };
+
+      userBadgeDict["learn"][0] = learnScore;
+      userBadgeDict["learn"][1] = learnMax;
+      if (this.state.userBadgeOtherCount !== undefined && this.state.maxBadgeOtherCount !== undefined && this.state.userBadgeFITBCount !== undefined && this.state.maxBadgeFITBCount !== undefined) {
+        for (const [userBadgeCountIndex, userBadgeCountElement] of Array.from([this.state.userBadgeOtherCount, this.state.maxBadgeOtherCount]).entries()) {
+          for (const badge of userBadgeCountElement) {
+            if (badge._id === "cyoa" && badge.count !== undefined)
+              userBadgeDict["cyoa"][userBadgeCountIndex] = badge.count;
+            else if (badge._id === "dnd" && badge.count !== undefined)
+              userBadgeDict["dnd"][userBadgeCountIndex] = badge.count;
+            else if (badge._id === "mmc" && badge.count !== undefined)
+              userBadgeDict["mmc"][userBadgeCountIndex] = badge.count;
+          }
+        }
+        if (this.state.userBadgeFITBCount[0] !== undefined && this.state.userBadgeFITBCount[0].count !== undefined)
+          userBadgeDict["fitb"][0] = this.state.userBadgeFITBCount[0].count;
+        if (this.state.maxBadgeFITBCount[0] !== undefined && this.state.maxBadgeFITBCount[0].count !== undefined)
+          userBadgeDict["fitb"][1] = this.state.maxBadgeFITBCount[0].count;
+      }
+      
       //This is the HTML that is rendered to the webpage
       return (
         <div>
-        <div style={{marginRight: '2vw'}}>
-          <form  style={{marginTop: '4vh', width: '25%', marginLeft: 'auto', textAlign: 'left'}}>
-            <div style={{marginTop: '1vh', fontSize: '28px'}}>Join a Class!</div>
-            <div>
-              <div>
-                <label htmlFor="class"></label>
-                <input type="text" id="class" name="class"
-                        placeholder={"Enter the Class ID"}/>
-              </div>
-            </div>
-
-            <button type="submit" className="btn btn-primary blue btn-lg" style={{marginTop: '5vh', marginLeft: '5vw'}}>
-                Submit
-            </button>
-          </form>
-        </div>
         <section style={container}>
           <MDBContainer className="py-5 h-100">
             <MDBRow className="justify-content-center align-items-center h-100">
@@ -100,16 +152,122 @@ export default class ProfilePage extends React.Component {
                   <MDBRow className="g-0">
                     <MDBCol md="4" className="gradient-custom text-center text-white"
                       style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
-                      <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                        alt="Avatar" className="my-5" style={{ width: '80px' }} fluid />
+                      <div className="avatar-frame-container">
+                        <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                          alt="Avatar" className="my-4" style={{ width: '80px' }} fluid />
+                        <img src={'/avatarFrame$.png'.replace('$', userLevelIndex)} width="100rem" alt='' className="avatar-frame"/>
+                      </div>
                       <MDBTypography tag="h5">{fullName}</MDBTypography>
-                      <MDBCardText>CS Undergraduate</MDBCardText>
+                      <MDBTypography tag="h5">
+                        Level: <b>{userLevelName}</b>
+                      </MDBTypography>
+                      <MDBTypography tag="h6">
+                        {userLevelIndex !== numLevels - 1 && <p>Progress Until Next Level: {projectScore % xpRequiredPerLevel}/{xpRequiredPerLevel}</p>}
+                        {userLevelIndex !== numLevels - 1 && <p>Total Level Progress: {projectScore}/{Math.floor(projectMax/xpRequiredPerLevel)*xpRequiredPerLevel}</p>}
+                        {userLevelIndex === numLevels - 1 && <p>Level Progress: Max Level Reached</p>}
+                      </MDBTypography>
+                      <MDBRow className="pt-1">
+                        <MDBCol size="6" className="mb-4">
+                          {(userBadgeDict["learn"][0] < userBadgeDict["learn"][1] || userBadgeDict["learn"][1] === 0) && <div>
+                            <img src='/badgeLocked.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>Badge Locked</b>
+                          </div>}
+                          {(userBadgeDict["learn"][0] >= userBadgeDict["learn"][1] && userBadgeDict["learn"][1] !== 0) && <div>
+                            <img src='/badgeLearn.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>{userBadgeDict["learn"][2]}</b>
+                          </div>}
+                          <MDBTypography tag="h6">
+                            Learn: {userBadgeDict["learn"][0]}/{userBadgeDict["learn"][1]}
+                          </MDBTypography>
+                        </MDBCol>
+                        <MDBCol size="6" className="mb-4">
+                          {(userBadgeDict["cyoa"][0] < userBadgeDict["cyoa"][1] || userBadgeDict["cyoa"][1] === 0) && <div>
+                            <img src='/badgeLocked.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>Badge Locked</b>
+                          </div>}
+                          {(userBadgeDict["cyoa"][0] >= userBadgeDict["cyoa"][1] && userBadgeDict["cyoa"][1] !== 0) && <div>
+                            <img src='/badgeCYOA.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>{userBadgeDict["cyoa"][2]}</b>
+                          </div>}
+                          <MDBTypography tag="h6">
+                            CYOA: {userBadgeDict["cyoa"][0]}/{userBadgeDict["cyoa"][1]}
+                          </MDBTypography>
+                        </MDBCol>
+                      </MDBRow>
+                      <MDBRow className="pt-1">
+                        <MDBCol size="6" className="mb-4">
+                          {(userBadgeDict["dnd"][0] < userBadgeDict["dnd"][1] || userBadgeDict["dnd"][1] === 0) && <div>
+                            <img src='/badgeLocked.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>Badge Locked</b>
+                          </div>}
+                          {(userBadgeDict["dnd"][0] >= userBadgeDict["dnd"][1] && userBadgeDict["dnd"][1] !== 0) && <div>
+                            <img src='/badgeDND.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>{userBadgeDict["dnd"][2]}</b>
+                          </div>}
+                          <MDBTypography tag="h6">
+                            DND: {userBadgeDict["dnd"][0]}/{userBadgeDict["dnd"][1]}
+                          </MDBTypography>
+                        </MDBCol>
+                        <MDBCol size="6" className="mb-4">
+                          {(userBadgeDict["mmc"][0] < userBadgeDict["mmc"][1] || userBadgeDict["mmc"][1] === 0) && <div>
+                            <img src='/badgeLocked.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>Badge Locked</b>
+                          </div>}
+                          {(userBadgeDict["mmc"][0] >= userBadgeDict["mmc"][1] && userBadgeDict["mmc"][1] !== 0) && <div>
+                            <img src='/badgeMMC.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>{userBadgeDict["mmc"][2]}</b>
+                          </div>}
+                          <MDBTypography tag="h6">
+                            MMC: {userBadgeDict["mmc"][0]}/{userBadgeDict["mmc"][1]}
+                          </MDBTypography>
+                        </MDBCol>
+                      </MDBRow>
+                      <MDBRow className="pt-1">
+                        <MDBCol size="6" className="mb-4">
+                          {(userBadgeDict["fitb"][0] < userBadgeDict["fitb"][1] || userBadgeDict["fitb"][1] === 0) && <div>
+                            <img src='/badgeLocked.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>Badge Locked</b>
+                          </div>}
+                          {(userBadgeDict["fitb"][0] >= userBadgeDict["fitb"][1] && userBadgeDict["fitb"][1] !== 0) && <div>
+                            <img src='/badgeFITB.png' width="60rem" alt=''/>
+                            <br></br>
+                            <b>{userBadgeDict["fitb"][2]}</b>
+                          </div>}
+                          <MDBTypography tag="h6">
+                            FITB: {userBadgeDict["fitb"][0]}/{userBadgeDict["fitb"][1]}
+                          </MDBTypography>
+                        </MDBCol>
+                        <MDBCol size="6" className="mb-4">
+                        </MDBCol>
+                      </MDBRow>
+                      {/* <MDBTypography tag="h6">
+                        Learn: {userBadgeDict["learn"][0]}/{userBadgeDict["learn"][1]}
+                        <br></br>
+                        <img src='/badgeLocked.png' width="60rem" alt=''/>
+                        {true && <img src='/badgeLocked.png' width="60rem" alt=''/>}
+                        CYOA: {userBadgeDict["cyoa"][0]}/{userBadgeDict["cyoa"][1]}
+                        <br></br>
+                        DND: {userBadgeDict["dnd"][0]}/{userBadgeDict["dnd"][1]}
+                        <br></br>
+                        MMC: {userBadgeDict["mmc"][0]}/{userBadgeDict["mmc"][1]}
+                        <br></br>
+                        FITB: {userBadgeDict["fitb"][0]}/{userBadgeDict["fitb"][1]}
+                        </MDBTypography> */}
                       {/* LinkContainer adds routing to the Edit Profile button. Sends the user to /userInfo */}
                       <LinkContainer to="/userInfo">
                         <MDBBtn outline color="light" style={{height: '36px', overflow: 'visible'}}>
                           Edit profile
                         </MDBBtn>
-                      </LinkContainer> 
+                      </LinkContainer>
                     </MDBCol>
                     <MDBCol md="8">
                       <MDBCardBody className="p-4">
@@ -140,9 +298,9 @@ export default class ProfilePage extends React.Component {
                             <MDBProgress className="rounded" height='30'>
                             <MDBProgressBar striped animated width={gamePercentage} valuemin={0} valuemax={100}> {gamePercentage}% </MDBProgressBar>
                             </MDBProgress>  
-                            <MDBCardText style={{paddingTop:'20px'}}>{gameScore}/{gameMax} Games Completed</MDBCardText>                      
+                            <MDBCardText style={{paddingTop:'20px'}}>{gameScore}/{gameMax} Games Completed</MDBCardText>
                           </MDBCol>
-                        </MDBRow>                    
+                        </MDBRow>
                       </MDBCardBody>
                     </MDBCol>
                   </MDBRow>
@@ -151,6 +309,22 @@ export default class ProfilePage extends React.Component {
             </MDBRow>
           </MDBContainer>
       </section>
+      <div style={{marginRight: '2vw'}}>
+          <form  style={{marginTop: '4vh', width: '25%', marginLeft: 'auto', textAlign: 'left'}}>
+            <div style={{marginTop: '1vh', fontSize: '28px'}}>Join a Class!</div>
+            <div>
+              <div>
+                <label htmlFor="class"></label>
+                <input type="text" id="class" name="class"
+                        placeholder={"Enter the Class ID"}/>
+              </div>
+            </div>
+
+            <button type="submit" className="btn btn-primary blue btn-lg" style={{marginTop: '5vh', marginLeft: '5vw'}}>
+                Submit
+            </button>
+          </form>
+        </div>
       </div>
     );
   }

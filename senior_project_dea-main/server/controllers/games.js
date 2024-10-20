@@ -7,6 +7,7 @@ const fs = require("fs")
 const path = require("path")
 
 //DB Models
+const TradQuestion = mongoose.model("TraditionalQuestionInfo")
 const GameQuestion = mongoose.model("GameQuestionInfo")
 const CYOAQuestion = mongoose.model("CYOAQuestionInfo")
 const DNDQuestion = mongoose.model("DNDQuestionInfo")
@@ -27,7 +28,71 @@ const getGameCount = (async(req,res) =>{
         res.send({status:"ok", data:count});
     })
     .catch((error)=>{
-        res.send({status: "error", data:error});
+        res.send({status:"error", data:error});
+    });
+})
+
+const getGameTypeCount = (async(req,res) =>{
+    GameQuestion.aggregate([{
+        $group: {
+            _id: "$gameName", // Group by elements in gameName
+            count: { $sum: 1 } // Count occurrences of each gameName
+    }}])
+    .then((data)=>{
+        res.send({status:"ok", data:data});
+    })
+    .catch((error)=>{
+        res.send({status:"error", data:error});
+    });
+})
+
+const getGameTypeCountByUser = (async(req,res) =>{
+    GameQuestion.aggregate([{
+        $match: {
+            _id: { $in: Array.from(req.body.gameList).map((idString) => new mongoose.Types.ObjectId(idString)) } // Input a list of game IDs
+        }}, {
+        $group: {
+            _id: "$gameName", // Group by elements in gameName
+            count: { $sum: 1 } // Count occurrences of each gameName
+    }}])
+    .then((data)=>{
+        res.send({status:"ok", data:data});
+    })
+    .catch((error)=>{
+        res.send({status:"error", data:error});
+    });
+})
+
+const getFITBCount = (async(req,res) =>{
+    TradQuestion.aggregate(
+        [{$match: {
+            displayType: "game"
+        }}, {
+            $count: "count"
+}])
+.then((data)=>{
+    res.send({status:"ok", data:data});
+})
+.catch((error)=>{
+    res.send({status:"error", data:error});
+});
+})
+
+const getFITBCountByUser = (async(req,res) =>{
+    TradQuestion.aggregate([{
+            $match: {
+              _id: { $in: Array.from(req.body.fitbList).map((idString) => new mongoose.Types.ObjectId(idString)) },
+              displayType: "game"
+            }}, {
+            $group: {
+              _id: null,
+              count: { $sum: 1 }
+    }}])
+    .then((data)=>{
+        res.send({status:"ok", data:data});
+    })
+    .catch((error)=>{
+        res.send({status:"error", data:error});
     });
 })
 
@@ -952,6 +1017,10 @@ const deleteMatching = (async(req, res) =>{
 //Exports
 module.exports = {
     getGameCount,
+    getGameTypeCount,
+    getGameTypeCountByUser,
+    getFITBCount,
+    getFITBCountByUser,
     getGameByTopic,
     getGameByType,
     getGameById,

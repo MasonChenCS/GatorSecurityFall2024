@@ -3,8 +3,20 @@
   background: rgb(38, 19, 254);  
   
   /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(right bottom, #FDEEDC, #E38B29);
+  background: -webkit-linear-gradient(right bottom, #482600, #E38B29);
   
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right bottom, #FDEEDC, #E38B29);
+  background: linear-gradient(to right bottom, #482600, #E38B29);
+}
+
+.avatar-frame-container {
+  position: relative;
+  display: inline;
+}
+
+.avatar-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -4,11 +4,13 @@ import '../componentStyling/buttons.css';
 import '../componentStyling/textStyling.css';
 import '../componentStyling/Game.css';
 import apiRequest from '../../util/api.js';
+import {Alert} from "../Alert.js";
 
 function GamePage() {
     const [cyoaGameQuestions, setCYOAGameQuestions] = React.useState('');
     const [dndGameQuestions, setDNDGameQuestions] = React.useState('');
     const [matchingGameQuestions, setMatchingGameQuestions] = React.useState('');
+    const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
 
         //Loads the data from database once
         React.useEffect(()=> {
@@ -128,7 +130,8 @@ function GamePage() {
         alertString += "Once you reach the end of the adventure, your game score will increase by a point. Replaying the game will not yield additional points.\n\n";
         alertString += "Click on any of the blue buttons beneath the instruction button to begin an adventure. Have fun!";
 
-        alert(alertString);
+        // alert(alertString);
+        getProps({variant: "info", title: "How to Play: Choose Your Own Adventure Games", message: alertString});
     }
 
     //The How To Play DND Button Function
@@ -142,7 +145,8 @@ function GamePage() {
         alertString += "Once you complete all the drag and drops under one game (i.e. all of the questions for one of the blue buttons below), your game score will increase by a point. Replaying the game will not yield additional game points.\n\n";
         alertString += "Click on any of the blue buttons beneath the instruction button to get started. Have fun!";
 
-        alert(alertString);
+        // alert(alertString);
+        getProps({variant: "info", title: "How to Play: Drag and Drop Games", message: alertString});
     }
 
     //The How To Play MM Button Function
@@ -157,7 +161,8 @@ function GamePage() {
         alertString += "Once you complete the game, your game score will increase by a point. Replaying the game will not yield additional game points.\n\n";
         alertString += "Click on any of the blue buttons beneath the instruction button to get started. Have fun!";
 
-        alert(alertString);
+        // alert(alertString);
+        getProps({variant: "info", title: "How to Play: Memory Matching Card Games", message: alertString});
     }
 
     //The How To Play Fill in the Blank Button Function
@@ -168,11 +173,13 @@ function GamePage() {
         alertString += "Completing each game will yield one individual game point, meaning you can earn multiple game points. Replaying a game will not yield additional game points.\n\n";
         alertString += "Click on the blue button beneath the instruction button to get started. Have fun!";
 
-        alert(alertString);
+        // alert(alertString);
+        getProps({variant: "info", title: "How to Play: Fill in the Blank Games", message: alertString});
     }
 
     return (
       <div>
+          {isAlertVisible ? <div><br></br><AlertMessage /></div> : ""}
           <div className='card-container game'>
             {/* This is the Choose Your Own Adventure Card */}
             <div className='card game'>

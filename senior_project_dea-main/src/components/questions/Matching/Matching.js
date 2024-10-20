@@ -3,12 +3,14 @@ import MatchingCard from "./MatchingCard";
 import arrayShuffle from "array-shuffle";
 import GetConfig from '../../../Config.js';
 import apiRequest from '../../../util/api.js';
+import {Alert} from "../../Alert.js";
 
 function Matching () {
     const [gameQuestionData, setGameQuestionData] = React.useState('');
     const [MatchingQuestionData, setMatchingQuestionData] = React.useState('');
     const [vocab, setVocab] = useState([]);
     const [won, setWon] = useState(false);
+    const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
 
     // Loads data from database once
     React.useEffect(() => {
@@ -90,6 +92,7 @@ function Matching () {
         generateCards();
         setNumCorrect(0);
         setWon(false);
+        setAlertVisible(false);
     }
 
     //this function generates a randomized subset of cards based on the input vocab set
@@ -152,17 +155,24 @@ function Matching () {
                     qid: gameQuestionData._id, 
             }),
             }).then((res) => {
-            //If request was a success
             if(res.status === 204) {
                 setWon(true);
-                alert("Congratulations! You beat the game!");
             }
             else {
-                alert("Something went wrong with the backend!");
+                getProps({variant: "error", title: "Back-End Error", message: "Something went wrong with the back-end!"});
             }
             })}
         }
     }, [gameQuestionData._id, numCorrect, vocab, vocab.length]);
+
+    //alert user won when the game is completed added so final color is revealed before the alert
+    useEffect(() => {
+        if(won){
+            //add a delay to ensure the final color is revealed before the alert
+            setTimeout(() => {getProps({variant: "success", title: "Victory", message: "Congratulations! You beat the game!"});}, 500);
+            //setTimeout(() => {alert("Congratulations! You beat the game!");},500);
+        }
+    }, [won]);
 
     //evaluates the players choices once two cards have been chosen
     useEffect(() => {
@@ -173,9 +183,12 @@ function Matching () {
             if(choiceOne.val === choiceTwo.val){
                 resetChoices();
                 const temp = cards.map(card => {
+
+                    //If cards match
                     if(card.val === choiceOne.val){
                         return {...card, matched: true};
                     }
+                    //Else, not matched
                     else{
                         return card;
                     }
@@ -200,6 +213,9 @@ function Matching () {
         //Render the memory matching page
         return(
             <div className="container">
+                {/* Test alerts by uncommenting the line below */}
+                {/* <button onClick={() => {getProps({variant: "success", title: "Victory", message: "Congratulations! You beat the game!"})}}></button> */}
+                {isAlertVisible ? <div><br></br><AlertMessage /></div> : ""}
                 <div className="row" style={{marginTop:50, justifyContent:"center"}}>
                     <h1 style={{color: "#113F67"}}>Memory Matching</h1>
                     <button className="btn btn-primary" style={{maxWidth: 150, marginTop: 25}} onClick={newGame}>New Game</button>

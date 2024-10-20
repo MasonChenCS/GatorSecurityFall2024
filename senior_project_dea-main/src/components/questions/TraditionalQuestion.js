@@ -4,8 +4,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import GetConfig from '../../Config.js';
 import apiRequest from '../../util/api.js';
+import {Alert} from "../Alert.js";
 
 function TradQuestion({ qdata, num }) {
+    const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
 
     const spaceAfterQ = {
         paddingTop: "10px"
@@ -13,7 +15,8 @@ function TradQuestion({ qdata, num }) {
 
     const [answer, setSelection] = React.useState('');
     const onChange = e => {
-      setSelection(e.target.value)
+      setSelection(e.target.value);
+      setAlertVisible(false);
     }
 
     const createAnswerOptions = (type) => {
@@ -72,14 +75,14 @@ function TradQuestion({ qdata, num }) {
         }).then((res)=>res.json())
         .then((data)=>{
             if(data.data.correct === true) {
-                alert("Correct!");
+                getProps({variant: "success", title: "Correct", message: "You have answered the question correctly!"});
                 if (data.data.qid === '63ed420afc16e08fd2c00e46')
                 {
                     createTable();
                 }
             }
             else {
-                alert("Incorrect. Try again!");
+                getProps({variant: "error", title: "Incorrect", message: "Sorry, please try again!"});
             }
         })
     }
@@ -88,6 +91,7 @@ function TradQuestion({ qdata, num }) {
     if(qdata.type === 2 || qdata.type === 3) {
         return (
             <>
+                {isAlertVisible ? <div><br></br><AlertMessage /></div> : ""}
                 <div style={spaceAfterQ}></div>
                 {num}. {qdata.question}
                 <div style={spaceAfterQ}></div>
@@ -118,6 +122,7 @@ function TradQuestion({ qdata, num }) {
     else {
         return (
             <>
+                {isAlertVisible ? <div><br></br><AlertMessage /></div> : ""}
                 <div style={spaceAfterQ}></div>
                 {num}. {qdata.question}
                 <div style={spaceAfterQ}></div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
-
 import GetConfig from '../../Config.js';
+import {Alert} from "../Alert.js";
 
 export default function QuestionEdit(props) {
   //these states store the data for the edited question and handles changes made to the data
@@ -10,6 +10,7 @@ export default function QuestionEdit(props) {
   const [editOptions, setEditOptions] = useState(props.editOptions);
   const [editAnswer, setEditAnswer] = useState(props.editAnswer);
   const [editDisplayType, setEditDisplayType] = useState(props.editDisplayType);
+  const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
 
   //this function changes the question field
   const handleQuestionChange = (value) => {
@@ -82,8 +83,8 @@ export default function QuestionEdit(props) {
         token: window.localStorage.getItem("token"),
       }),
     }).then(() => {
-      alert("Question has been updated successfully.");
-      window.location.reload();
+      getProps({variant: "success", title: "Question Updated", message: "Question was successfully updated. Reloading in 5 seconds."});
+      setTimeout(() => {window.location.reload()}, 5000);
     });
   };
 
@@ -94,6 +95,7 @@ export default function QuestionEdit(props) {
 
   return (
     <div className="card">
+      {isAlertVisible ? <div><br></br><AlertMessage /></div> : ""}
       <div className="card-body">
         <form onSubmit={handleUpdate}>
           <div className="form-group" style={{ textAlign: "left" }}>

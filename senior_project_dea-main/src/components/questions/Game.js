@@ -11,9 +11,25 @@ function GamePage() {
     const [dndGameQuestions, setDNDGameQuestions] = React.useState('');
     const [matchingGameQuestions, setMatchingGameQuestions] = React.useState('');
     const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
+    const [completedGames, setCompletedGames] = React.useState([]);
 
+        
+        // Load completed games and other data
+        React.useEffect(() => {
+            // Function to load completed games
+            const loadCompletedGames = async () => {
+                apiRequest("/users/userInfo")
+                .then((res) => res.json())
+                .then((data) => {
+                    setCompletedGames(data.data.dbUserData.gamescore);  // Set completed games from the user's profile
+                })
+                .catch((error) => {
+                    console.log("Failed to load completed games", error);
+                });
+            };
+    
         //Loads the data from database once
-        React.useEffect(()=> {
+        
 
             const loadGames = async () => {
 
@@ -29,8 +45,10 @@ function GamePage() {
             }
     
             //Initial function call to load data
+            loadCompletedGames()
             loadGames()
         },[cyoaGameQuestions, dndGameQuestions, matchingGameQuestions])
+
 
     //Function call to backend to get the game questions by each type (CYOA, DND, MM)
     const getGameQuestionsByType = (type_, setGameQuestionData_) => {
@@ -51,14 +69,26 @@ function GamePage() {
     if(cyoaGameQuestions.length !== 0) {
         //Populate the CYOA card with every CYOA question
         for(let i = 0; i < cyoaGameQuestions.data.length; i++) {
+
+            
+            
+         const currentGameId = cyoaGameQuestions.data[i]._id;
+
+        // Safeguard check to ensure the ID exists
+        if (currentGameId) {
+            // Check if the game is completed
+            let isCompleted = completedGames.includes(currentGameId);
+
             cyoaQuestionDisplay.push(
                 <div key={i}>
-                    <a href={`./gameAdventure/${cyoaGameQuestions.data[i]._id}`} className="btn btn-primary">
+                    <a href={`./gameAdventure/${currentGameId}`} 
+                    className={`btn ${isCompleted ? 'btn-completed' : 'btn-primary'}`}>
                           {cyoaGameQuestions.data[i].name}
                     </a>
                     <div style={spaceAfterQ} />
                 </div>
-            );
+             );
+            }
         }
     }
 
@@ -105,18 +135,27 @@ function GamePage() {
 
     let matchingQuestionDisplay = [];
 
-    //If MM game questions have been loaded from the backend
     if(matchingGameQuestions.length !== 0) {
-        //Populate the MM card with every MM question
+        // Populate the MM card with every MM question
         for(let i = 0; i < matchingGameQuestions.data.length; i++) {
-            matchingQuestionDisplay.push(
-                <div key={i}>
-                    <a href={`./gameMatching/${matchingGameQuestions.data[i]._id}`} className="btn btn-primary">
-                        {matchingGameQuestions.data[i].name}
-                    </a>
-                    <div style={spaceAfterQ} />
-                </div>
-            )
+    
+            const currentMatchingGameId = matchingGameQuestions.data[i]._id;
+    
+            // Safeguard check to ensure the ID exists
+            if (currentMatchingGameId) {
+                // Check if the game is completed
+                let isCompleted = completedGames.includes(currentMatchingGameId);
+    
+                matchingQuestionDisplay.push(
+                    <div key={i}>
+                        <a href={`./gameMatching/${currentMatchingGameId}`} 
+                        className={`btn ${isCompleted ? 'btn-completed' : 'btn-primary'}`}>
+                            {matchingGameQuestions.data[i].name}
+                        </a>
+                        <div style={spaceAfterQ} />
+                    </div>
+                );
+            }
         }
     }
 

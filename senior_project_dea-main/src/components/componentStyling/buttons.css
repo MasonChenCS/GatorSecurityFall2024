@@ -35,3 +35,8 @@
     background-color: lightgray !important;
     color: black !important;
 }
+
+.btn-completed{
+    background-color: #0e8759 !important;
+    color: white !important;
+}

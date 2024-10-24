@@ -65,6 +65,7 @@ To start the backend run the following commands from the `senior_project_dea-mai
 * `npm start`
 
 To start the frontend run, open a second terminal in the `senior_project_dea-main` directory and run `npm start`.
+(Update: This may result in a fetch error. If the error occurs, please force install npm by using the force tag `npm install --force`)
 
 Note: If PWD is `senior_project_dea-main`, `npm run dev` will automatically run the server and front end concurrently without the need for a second console *EXTREMELY IMPORTANT FOR HOSTING*
 

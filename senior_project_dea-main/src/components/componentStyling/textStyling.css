@@ -20,3 +20,11 @@
     padding-bottom: 10px;
     text-decoration: underline;
 }
+
+.h2-text {
+    font-family: 'Georgia', serif;
+    color: rgb(24, 141, 183) !important;
+    font-size: 40px;
+    padding-bottom: 10px;
+    text-decoration: underline;
+}

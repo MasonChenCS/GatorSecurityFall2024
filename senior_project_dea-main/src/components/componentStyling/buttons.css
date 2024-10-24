@@ -12,6 +12,12 @@
     border: #FA4616 !important;
 }
 
+.btn.btn-more {
+    background-color: #0fa23b !important;
+    border: #16b9fa !important;
+    color: white !important;
+}
+
 .btn.btn-danger {
     background-color: #2C74B3 !important;
     border: #2C74B3 !important;

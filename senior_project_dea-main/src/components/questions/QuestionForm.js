@@ -1,8 +1,10 @@
 import { useState } from "react";
 import GetConfig from '../../Config.js';
 import apiRequest from '../../util/api.js';
+import {Alert} from "../Alert.js";
 
 export default function QuestionForm() {
+  const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
   //these states store the data fields for the question being added
   const [newQuestion, setNewQuestion] = useState("");
   const [newTopic, setNewTopic] = useState("");
@@ -168,16 +170,16 @@ export default function QuestionForm() {
       }).then((response) => {
         if(response.status === 500)
         {
-          alert("Internal server error. Please try again")
+          getProps({variant: "error", title: "Error", message: "Internal server error. Please try again."});
         }
         else if (response.status === 422)
         {
-          alert("Please ensure all fields are properly filled out and try again.")
+          getProps({variant: "error", title: "Error", message: "Please ensure all fields are properly filled out and try again."});
         }
         else if (response.status === 201)
         {
-          alert("Question has been added successfully.");
-          window.location.reload();
+          getProps({variant: "success", title: "Question Added", message: "Question was successfully added! Reloading in 5 seconds."});
+          setTimeout(() => {window.location.reload()}, 5000);
         }
       });
     } else if (newDisplayType === "game") {
@@ -260,6 +262,7 @@ export default function QuestionForm() {
 
   return (
     <div className="card">
+      {isAlertVisible ? <div><br></br><AlertMessage /></div> : ""}
       {/* <div>
         DEBUG
         {newDisplayType !== "" && newAnswer !== "" && newQuestion !== "" && newTopic !== "" && newType !== "" && (

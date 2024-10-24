@@ -20,3 +20,18 @@
 .btn.ripple {
     background-color: transparent !important;
 }
+
+.btn-correct {
+    background-color: green !important;
+    color: white !important;
+}
+
+.btn-incorrect {
+    background-color: red !important;
+    color: white !important;
+}
+
+.btn-default {
+    background-color: lightgray !important;
+    color: black !important;
+}

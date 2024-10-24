@@ -20,6 +20,10 @@ const upload = multer({
 //Import game controller functions
 const {
     getGameCount,
+    getGameTypeCount,
+    getGameTypeCountByUser,
+    getFITBCount,
+    getFITBCountByUser,
     getGameByTopic,
     getGameByType,
     getGameById,
@@ -48,7 +52,15 @@ const { validateCYOAQuestion, validateDNDQuestion, validateMatchingQuestion } = 
 //Overarching Game Question Routes (NOTE: Each / should be preceded by /questions when testing with Postman e.g. localhost:5000/questions/getcount)
 
 //Overarching Game Question Routes
-router.get('/getcount', getGameCount);
+router.get('/getCount', getGameCount);
+
+router.get('/getGameTypeCount', getGameTypeCount);
+
+router.post('/getGameTypeCountByUser', getGameTypeCountByUser);
+
+router.get('/getFITBCount', getFITBCount);
+
+router.post('/getFITBCountByUser', getFITBCountByUser);
 
 router.get('/getByTopic/learn/:topic', getGameByTopic);
 

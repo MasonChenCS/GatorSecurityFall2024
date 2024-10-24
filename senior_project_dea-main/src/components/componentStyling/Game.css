@@ -16,3 +16,17 @@
     height: 405px !important;
     object-fit: cover !important;
 }
+
+.bold-text {
+    font-weight: bold;
+}
+
+.option-box {
+    border-color: #2C74B3;
+    border-style: solid;
+    border-width: 2px;
+    padding: 20px;
+    border-radius: 25px;
+    max-width: 600px;  /* Ensure the box has a maximum width */
+    margin: auto;  /* Center the box */
+}

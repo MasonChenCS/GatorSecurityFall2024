@@ -1,0 +1,21 @@
+/* Alert Title */
+.MuiAlertTitle-root {
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+}
+
+/* Alert Message */
+.MuiAlert-message {
+    font-size: 1rem !important;
+    text-align: left !important;
+}
+
+/* Alert Icon */
+.MuiSvgIcon-root {
+    font-size: 2rem !important;
+}
+
+/* Alert Close Button */
+.MuiSvgIcon-fontSizeInherit {
+    font-size: 3rem !important;
+}

@@ -7,10 +7,10 @@
 
 ## Section 2: Installing Node.js packages
 Run the following commands from the `senior_project_dea-main` directory:
-* `npm i mdb-react-ui-kit`
+* `npm i`
 
 Run the following commands from the `senior_project_dea-main/server` directory:
-* `npm install cors`
+* `npm i`
 
 ## Section 3: Connecting to the database
 From the `senior_project_dea-main/server` directory, do the following:

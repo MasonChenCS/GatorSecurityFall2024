@@ -10,7 +10,8 @@ const userDBSchema = new mongoose.Schema(
         learnscore:Array,
         gamescore:Array,
         isAdmin:{type:Boolean, default:false},
-        accountType:String
+        accountType:String,
+        avatarframe:Number
     },
     {
         collection: "UserInfo",

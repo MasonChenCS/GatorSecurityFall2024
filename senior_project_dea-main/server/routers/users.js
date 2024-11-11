@@ -7,6 +7,7 @@ const {
     getUserInfo,
     updateUser,
     getAllUsers,
+    updateAvatarFrame,
     checkAnswerAndUpdateScore,
     checkPrivileges,
     updateScore,
@@ -16,18 +17,20 @@ const {
 //Connect user controller functions to endpoints
 //Overarching User Routes (NOTE: Each / should be preceded by /users when testing with Postman e.g. localhost:5000/users/register)
 
-router.get('/userInfo', getUserInfo)
+router.get('/userInfo', getUserInfo);
 
-router.put('/update/:id', updateUser)
+router.put('/update/:id', updateUser);
 
-router.get('/allUsers', getAllUsers)
+router.get('/allUsers', getAllUsers);
+
+router.post('/updateAvatarFrame', updateAvatarFrame);
 
 router.put('/updatelearnscore', checkAnswerAndUpdateScore);
 
-router.get('/checkPrivileges', checkPrivileges)
+router.get('/checkPrivileges', checkPrivileges);
 
-router.post('/updateScore', updateScore)
+router.post('/updateScore', updateScore);
 
-router.get('/getAccountTypes', getAccountTypes)
+router.get('/getAccountTypes', getAccountTypes);
 
 module.exports = router

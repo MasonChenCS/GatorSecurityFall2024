@@ -13,7 +13,6 @@ function GamePage() {
     const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
     const [completedGames, setCompletedGames] = React.useState([]);
     const [userFITBCount, setFITBCount] = React.useState('');
-    const [maxFITBCount, setMaxFITBCount] = React.useState('');
     const [completedFITB, setCompletedFITB] = React.useState(false);
 
     // Load completed games and other data
@@ -39,7 +38,6 @@ function GamePage() {
                         .then(data=> {
                             if (data.data[0] !== undefined && data.data[0].count !== undefined) {
                                 const maxFITBCountTemp = data.data[0].count;
-                                setMaxFITBCount(maxFITBCountTemp);
                                 setCompletedFITB(userFITBCount === maxFITBCountTemp && maxFITBCountTemp !== 0 && maxFITBCountTemp !== "" ? true : false)
                             }
                         });

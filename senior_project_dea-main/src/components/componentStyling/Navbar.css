@@ -11,6 +11,16 @@
     color: white !important;
 }
 
+.completed.nav-link {
+    color: #0e8759 !important;
+}
+
+.completed.nav-link.active {
+    background-color: #0e8759 !important;
+    color: white !important;
+    border-radius: 0.375rem;
+}
+
 .nav-link {
     color: #2C74B3 !important;
 }

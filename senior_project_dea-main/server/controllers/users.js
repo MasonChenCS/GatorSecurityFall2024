@@ -94,6 +94,31 @@ const updateUser = (async (req, res) => {
 })
 
 /**
+ * Update avatar frame
+ * @function
+ * @async
+ * @param {int} req.body.frameid
+ * @memberof /users
+ * @name updateAvatarFrame
+ */
+const updateAvatarFrame = (async (req, res) => {
+    try{
+        //Obtain user
+        const user = req.headers.authorization;
+        const uEmail = user.email;
+
+        await User.updateOne({email: uEmail}, {$set: {"avatarframe": Number(req.body.frameid)}});
+
+        res.sendStatus(200);
+        return;
+    }
+    catch(error){
+        res.sendStatus(500);
+        return;
+    }
+})
+
+/**
  * Get all users endpoint controller for the admin panel
  * @function
  * @async
@@ -275,6 +300,7 @@ module.exports = {
     getUserInfo,
     updateUser,
     getAllUsers,
+    updateAvatarFrame,
     checkAnswerAndUpdateScore,
     updateScore,
     checkPrivileges,

@@ -3,7 +3,7 @@
 ## Section 1: Cloning the Repo:
 * Make a folder somewhere on your computer
 * `cd` to that folder from the command line
-* Run `git clone https://github.com/dellis7/GatorSecurityFall2023.git` to clone the repo
+* Run `git clone https://github.com/MasonChenCS/GatorSecurityFall2024` to clone the repo
 
 ## Section 2: Installing Node.js Packages
 Run the following commands from the `senior_project_dea-main` directory:
@@ -72,30 +72,32 @@ To start both frontend and backend in one terminal, navigate to the `senior_proj
 NOTE: This setup is intended for development and testing only. For production deployment, refer to Section 8.
 
 ## Section 8: Deploying the App (Hosting):
-Modify the server IP address in Config.js to point to the host's IP (e.g., the production server's public IP or domain name):
-* Navigate to the src directory: `cd senior_project_dea-main/src`
-* Open Config.js for editing: `nano Config.js`
-* Replace the existing server address with the host's IP or domain.
 
-Prepare the frontend for production deployment by creating a static build:
-* Navigate back to the project root directory (inside senior_project_dea-main): `cd ../`
-* Generate the static build: `npm run build`
-* Install the static file server globally: `npm install -g serve`
+### Starting the Application  
+1. Login to GatorSec EC2 server with provided details
+2. Switch to root user: `sudo -i`
+3. Navigate to the application root: `cd ../home/ubuntu/GatorSecurityFall2024`
+4. Start the application: `./deploy.sh`
 
-Run the application in production by starting both the frontend and backend together:
-* Navigate to the deployment directory (inside GatorSecurityFall2024): `cd ../`
-* Ensure the deploy.sh script has execution permissions (if necessary): `chmod +x deploy.sh`
-* Start the application: `./deploy.sh`
+### Setting Up a New Fork on EC2 
+_Follow steps above to navigate to root directory in EC2._
+1. Remove the old fork: `rm -rf GatorSecurityFall2024`
+2. Clone new fork: `git clone [fork_url]`
+3. Install dependencies in `main` and `server` directories: `npm i`
+4. Modify the server IP address in Config.js to point to the host's IP (e.g., the production server's public IP or domain name):
+     - Navigate to the src directory: `cd senior_project_dea-main/src`
+     - Open Config.js for editing: `nano Config.js`
+     - Replace `localhost` with the host's IP or domain
+5. Prepare the frontend for production deployment by creating a static build:
+     - Navigate back to the project root directory (inside senior_project_dea-main): `cd ../`
+     - Generate the static build: `npm run build`
+     - Install the static file server globally: `npm install -g serve`
 
-### Steps to Update the Deployed Application:
-1. If the application is running, stop it by pressing: `Ctrl + C`
+### Updating the Deployed Application:
+1. If the application is running, first kill it
 2. Navigate to the root directory of your GitHub fork and pull the latest changes: `git pull origin main`
-3. Navigate to the main project directory (`senior_project_dea-main`) and rebuild the static frontend files:
-   - `cd senior_project_dea-main`
-   - `npm run build`
-5. Navigate back to the root directory of your GitHub fork and redeploy the application:
-   - `cd ../`
-   - `./deploy.sh`
+3. Navigate to `senior_project_dea-main` and rebuild the static frontend files: `npm run build`
+5. Navigate back to the root directory of your GitHub fork and redeploy the application: `./deploy.sh`
 
 # About the Included Database    
 A database dump with an existing admin user and questions is included with distributions of this project. To see how to import this database dump, refer to `MongoDB Setup.pdf` in the Resources folder found in the root folder of this repository. The `Gator_Security_DB_Dump.zip` referred to in this document can be found in the same Resources folder.         

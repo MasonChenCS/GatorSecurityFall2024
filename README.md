@@ -74,7 +74,7 @@ NOTE: This setup is intended for development and testing only. For production de
 ## Section 8: Deploying the App (Hosting):
 
 ### Starting the Application  
-1. Login to GatorSec EC2 server with provided details
+1. SSH into GatorSec EC2 server with provided details
 2. Switch to root user: `sudo -i`
 3. Navigate to the application root: `cd ../home/ubuntu/GatorSecurityFall2024`
 4. Start the application: `./deploy.sh`

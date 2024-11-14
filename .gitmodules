@@ -1,0 +1,21 @@
+[submodule "DragAndDropGames/DragAndDropGroup"]
+	path = DragAndDropGames/DragAndDropGroup
+	url = https://github.com/Rodriguezra/DragAndDropGroup
+[submodule "DragAndDropGames/DragAndDropCyberCIA"]
+	path = DragAndDropGames/DragAndDropCyberCIA
+	url = https://github.com/Rodriguezra/DragAndDropCyberCIA
+[submodule "DragAndDropGames/DragAndDropPassword"]
+	path = DragAndDropGames/DragAndDropPassword
+	url = https://github.com/Rodriguezra/DragAndDropPassword
+[submodule "DragAndDropGames/DragAndDropCyberCrimeLaws"]
+	path = DragAndDropGames/DragAndDropCyberCrimeLaws
+	url = https://github.com/Rodriguezra/DragAndDropCyberCrimeLaws
+[submodule "DragAndDropGames/DragAndDropSSH"]
+	path = DragAndDropGames/DragAndDropSSH
+	url = https://github.com/Rodriguezra/DragAndDropSSH
+[submodule "DragAndDropGames/DragAndDropNetworkConfig"]
+	path = DragAndDropGames/DragAndDropNetworkConfig
+	url = https://github.com/Rodriguezra/DragAndDropNetworkConfig
+[submodule "DragAndDropGames/DragAndDropCyberCrimeAttackTree"]
+	path = DragAndDropGames/DragAndDropCyberCrimeAttackTree
+	url = https://github.com/Rodriguezra/DragAndDropCyberCrimeAttackTree

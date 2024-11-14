@@ -57,13 +57,13 @@ function GamePage() {
             }
             if(dndGameQuestions.length === 0) {
                 setDNDGameQuestions({data: [
-                    {_id: '641751cecf6320d07c6807ac', name: 'Asymmetric Encryption', link: 'https://fernfeather.github.io/DragAndDropGroup/'},
-                    {_id: '641895c9a5e034a06454ce9c', name: 'Cybercrime Laws', link: 'https://fernfeather.github.io/DragAndDropCyberCrimeLaws/'},
-                    {_id: '641cd84f38777ee89d579f5e', name: 'CIA', link: 'https://fernfeather.github.io/DragAndDropCyberCIA/'},
-                    {_id: '641a28d4691dc3f257b5c5e5', name: 'Network Configuration Security and Fundamentals of Secure Design', link: 'https://fernfeather.github.io/DragAndDropNetworkConfig/'},
-                    {_id: '642e243de553e294fc1238c8', name: 'Password Security', link: 'https://fernfeather.github.io/DragAndDropPassword/'},
-                    {_id: '642c8ae0e23f3289a867dd60', name: 'Attack Tree', link: 'https://fernfeather.github.io/DragAndDropCyberCrimeAttackTree/'},
-                    {_id: '641b59804db5d7f454573e57', name: 'SSH Handshake', link: 'https://fernfeather.github.io/DragAndDropSSH/'}
+                    {_id: '641751cecf6320d07c6807ac', name: 'Asymmetric Encryption', link: 'https://rodriguezra.github.io/DragAndDropGroup/'},
+                    {_id: '641895c9a5e034a06454ce9c', name: 'Cybercrime Laws', link: 'https://rodriguezra.github.io/DragAndDropCyberCrimeLaws/'},
+                    {_id: '641cd84f38777ee89d579f5e', name: 'CIA', link: 'https://rodriguezra.github.io/DragAndDropCyberCIA/'},
+                    {_id: '641a28d4691dc3f257b5c5e5', name: 'Network Configuration Security and Fundamentals of Secure Design', link: 'https://rodriguezra.github.io/DragAndDropNetworkConfig/'},
+                    {_id: '642e243de553e294fc1238c8', name: 'Password Security', link: 'https://rodriguezra.github.io/DragAndDropPassword/'},
+                    {_id: '642c8ae0e23f3289a867dd60', name: 'Attack Tree', link: 'https://rodriguezra.github.io/DragAndDropCyberCrimeAttackTree/'},
+                    {_id: '641b59804db5d7f454573e57', name: 'SSH Handshake', link: 'https://rodriguezra.github.io/DragAndDropSSH/'}
                 ]});
                 // Use the line below to set DND Game Questions to old format
                 // getGameQuestionsByType("1", setDNDGameQuestions);

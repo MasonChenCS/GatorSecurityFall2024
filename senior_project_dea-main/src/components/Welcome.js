@@ -22,10 +22,11 @@ export default class WelcomePage extends React.Component {
     });
   }
 
+
   render(){
     const carousel = {    
         position: "absolute",
-        top: "calc(55% + 40px)",
+        top: "calc(55% + 50px)",
         left: "50%",
         transform: "translate(-50%, -50%)",
         width: "30%",
@@ -53,17 +54,17 @@ export default class WelcomePage extends React.Component {
     if(this.state.userInfo == null) {
       return <div></div>
     }
-    
+ 
     let name = this.state.userInfo["fname"];
 
   return (
     <Carousel style={carousel} interval={8000}>
       <Carousel.Item>
-        <div className='w-100 d-block' style={{backgroundColor:"#008B8B", height: "20rem"}}>
-          <img src='./welcomeImg.png' style={image} alt="Stick Figure Waving"></img>
+        <div className='w-100 d-block' style={{backgroundColor:"#008B8B", height: "20rem"} }>
+          <img src='./welcomeImg.png' style={image} alt="Stick Figure Waving"></img>          
           <h2 style={title}>Welcome {name}!</h2>
           <p style={caption}>Please navigate to the "Learn" page to read up on important topics, and then head over to the "Game" page to test your knowledge.</p>
-        </div>
+        </div>        
       </Carousel.Item>
       <Carousel.Item>
         <div className='w-100 d-block' style={{backgroundColor:"#BDB76B", height: "20rem"}}>
@@ -102,4 +103,4 @@ export default class WelcomePage extends React.Component {
       </Carousel.Item>
     </Carousel>
   );
-}}
+}};

@@ -60,42 +60,42 @@ export default class WelcomePage extends React.Component {
   return (
     <Carousel style={carousel} interval={8000}>
       <Carousel.Item>
-        <div className='w-100 d-block' style={{backgroundColor:"#008B8B", height: "20rem"} }>
+        <div className='w-100 d-block' style={{backgroundColor:"#008B8B", height: "25rem"} }>
           <img src='./welcomeImg.png' style={image} alt="Stick Figure Waving"></img>          
           <h2 style={title}>Welcome {name}!</h2>
           <p style={caption}>Please navigate to the "Learn" page to read up on important topics, and then head over to the "Game" page to test your knowledge.</p>
         </div>        
       </Carousel.Item>
       <Carousel.Item>
-        <div className='w-100 d-block' style={{backgroundColor:"#BDB76B", height: "20rem"}}>
+        <div className='w-100 d-block' style={{backgroundColor:"#BDB76B", height: "25rem"}}>
           <img src='./scoreImg.png' style={image} alt="Ascending Steps with Flag on Last Step"></img>
           <h2 style={title}>Checking Your Score</h2>
           <p style={caption}>Take a look at your "My Profile" page to see your progress. There you can see how many sections and game questions you have completed. Keep up the great work!</p>
         </div>
       </Carousel.Item>
       <Carousel.Item>
-        <div className='w-100 d-block' style={{backgroundColor:"#E7933A", height: "20rem"}}>
+        <div className='w-100 d-block' style={{backgroundColor:"#E7933A", height: "25rem"}}>
           <img src='./creatorImg.png' style={image} alt="Lightbulb"></img>
           <h2 style={title}>The Creators Part 1</h2>
           <p style={caption}>This website was created by University of Florida students Daymao Silva, Erick Gonzalez, and Annalina Becker for their Fall 2022 senior project. They were advised under Professor Cheryl Resch.</p>
         </div>
       </Carousel.Item>
       <Carousel.Item>
-        <div className='w-100 d-block' style={{backgroundColor:"#2613D8", height: "20rem"}}>
+        <div className='w-100 d-block' style={{backgroundColor:"#2613D8", height: "25rem"}}>
           <img src='./creatorImg.png' style={image} alt="Lightbulb"></img>
           <h2 style={title}>The Creators Part 2</h2>
           <p style={caption}>Development of this website was continued in Spring 2023 by University of Florida seniors Jacob Boney, Kerry Hannigan, Brian Hoblin, Dylan Tosh, and Connor Wojtak under Professor Cheryl Resch.</p>
         </div>
       </Carousel.Item>
       <Carousel.Item>
-        <div className='w-100 d-block' style={{backgroundColor:"#8B008B", height: "20rem"}}>
+        <div className='w-100 d-block' style={{backgroundColor:"#8B008B", height: "25rem"}}>
           <img src='./creatorImg.png' style={image} alt="Lightbulb"></img>
           <h2 style={title}>The Creators Part 3</h2>
           <p style={caption}>Development of this website was continued in Fall 2023 by University of Florida seniors Deven Ellis, Hunter Ver Helst, Andrew Krawczyk, and Brien Boudreau under Professor Cheryl Resch.</p>
         </div>
       </Carousel.Item>
       <Carousel.Item>
-        <div className='w-100 d-block' style={{backgroundColor:"#074F57", height: "20rem"}}>
+        <div className='w-100 d-block' style={{backgroundColor:"#074F57", height: "25rem"}}>
           <img src='./creatorImg.png' style={image} alt="Lightbulb"></img>
           <h2 style={title}>The Creators Part 4</h2>
           <p style={caption}>Development of this website was continued in Fall 2024 by University of Florida seniors Mason Chen, Rohit Mittal, Raul Rodriguez, Geoffrey Watson, and Xin Zhao under Professor Cheryl Resch.</p>

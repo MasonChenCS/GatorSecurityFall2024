@@ -1,6 +1,6 @@
-import React, { useState } from "react"; // Ensure React is imported
-import { Alert as AlertMaterial, AlertTitle } from "@material-ui/lab";
-import { Slide, Button } from "@material-ui/core"; // Import Button from core library
+import React, { useState } from "react";
+import { Alert as AlertMaterial, AlertTitle } from "@mui/material";
+import { Slide, Button } from "@mui/material";
 import "./componentStyling/Alert.css";
 
 export const Alert = () => {
@@ -37,7 +37,7 @@ export const Alert = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            style={{ backgroundColor: "#2C74B3", marginTop: "10px" }} // Button styled in green
+                            style={{ backgroundColor: "#2C74B3", marginTop: "10px" }}
                             onClick={continueCallback}
                         >
                             Continue

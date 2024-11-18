@@ -11,7 +11,7 @@
 
 .avatar-frame-container {
   position: relative;
-  display: inline;
+  width: 100%;
 }
 
 .avatar-frame {
@@ -19,4 +19,82 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.hover:hover {
+  transform: scale(1.2);
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  transition: all .2s;
+}
+
+.avatar-frame-open-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border: 0;
+  background-color:rgba(0, 0, 0, 0.4);
+  font-size: 1.5rem;
+  border-radius: 1rem;
+}
+
+.avatar-frame-close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border: 0;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+}
+
+.avatar-frame-select-button {
+  background: rgba(0, 0, 0, 0);
+  border: 0;
+  color: white;
+  padding-bottom: 1rem;
+}
+
+.avatar-frame-select-button:hover {
+  transform: scale(1.2);
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  transition: all .2s;
+}
+
+.avatar-frame-select-button:disabled {
+  background: rgba(0, 0, 0, 0);
+  border: 0;
+  color: white;
+  padding-bottom: 1rem;
+  filter: grayscale(1);
+}
+
+/* .avatar-menu-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.6);
+} */
+
+.avatar-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8vmax;
+  height: calc(3rem + 5 * 7rem);
+  z-index: 2;
+  border-radius: 1rem;
+  /* background: -webkit-linear-gradient(45deg, #121727, #334374); */
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
 }

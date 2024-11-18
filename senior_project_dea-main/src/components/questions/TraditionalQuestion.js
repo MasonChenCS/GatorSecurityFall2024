@@ -6,7 +6,7 @@ import GetConfig from '../../Config.js';
 import apiRequest from '../../util/api.js';
 import {Alert} from "../Alert.js";
 
-function TradQuestion({ qdata, num }) {
+const TradQuestion = React.memo(({ qdata, num }) => {
     const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
 
     const spaceAfterQ = {
@@ -139,6 +139,6 @@ function TradQuestion({ qdata, num }) {
             </>
         );
     }
-}
+});
 
 export default TradQuestion;

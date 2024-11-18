@@ -20,6 +20,15 @@ function GameTraditionalPage() {
     const [questionData3, setQuestionData3] = React.useState('');
     const [questionData4, setQuestionData4] = React.useState('');
     const [questionData5, setQuestionData5] = React.useState('');
+    const [completedFITBGames, setCompletedFITBGames] = React.useState([]);
+
+    const gameIDToIndex = {
+        '63ed41affc16e08fd2c00e0f': 0,
+        '63ed420afc16e08fd2c00e46': 1,
+        '63ed423cfc16e08fd2c00e4f': 2,
+        '63ed428ffc16e08fd2c00e58': 3,
+        '63ed4387fc16e08fd2c00e7b': 4
+    };
   
     //Function that retrieves all the Fill in the Blank Questions
     const getQuestions = (topic_, setQuestionData_) => {
@@ -28,6 +37,29 @@ function GameTraditionalPage() {
           setQuestionData_(data);
         })
     }
+
+    // Load completed games and other data
+    React.useEffect(() => {
+        // Function to load completed games
+        const loadCompletedGames = async () => {
+            apiRequest("/users/userInfo")
+            .then((res) => res.json())
+            .then((data) => {
+                let completedFITBGamesTemp = new Array(5).fill(false);
+                // Iterate through all completed games to see which FITB games have been completed
+                for (const completedGame of data.data.dbUserData.gamescore) {
+                    if (completedGame in gameIDToIndex)
+                        completedFITBGamesTemp[gameIDToIndex[completedGame]] = true;
+                }
+                setCompletedFITBGames(completedFITBGamesTemp);
+            })
+            .catch((error) => {
+                console.log("Failed to load completed games", error);
+            });
+        };
+        //Initial function call to load data
+        loadCompletedGames();
+    }, []);
 
     //For every if statement below, determine if the Fill in the Blank category (e.g., Cross-Site Scripting) has been loaded
     //If not, load the questions from the database and store them in their respective state variables (e.g., questionData1)
@@ -74,19 +106,19 @@ function GameTraditionalPage() {
                 <Col sm={3}>
                 <Nav variant="pills" className="flex-column">
                     <Nav.Item>
-                    <Nav.Link eventKey="first">Cross-Site Scripting</Nav.Link>
+                        <Nav.Link className={completedFITBGames[0] ? "completed" : ""} eventKey="first">Cross-Site Scripting</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                    <Nav.Link eventKey="second">URL SQL Injection</Nav.Link>
+                        <Nav.Link className={completedFITBGames[1] ? "completed" : ""} eventKey="second">URL SQL Injection</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                    <Nav.Link eventKey="third">Login SQL Injection</Nav.Link>
+                        <Nav.Link className={completedFITBGames[2] ? "completed" : ""} eventKey="third">Login SQL Injection</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                    <Nav.Link eventKey="fourth">Input Sanitization </Nav.Link>
+                        <Nav.Link className={completedFITBGames[3] ? "completed" : ""} eventKey="fourth">Input Sanitization </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                    <Nav.Link eventKey="fifth">Cryptography</Nav.Link>
+                        <Nav.Link className={completedFITBGames[4] ? "completed" : ""} eventKey="fifth">Cryptography</Nav.Link>
                     </Nav.Item>
                 </Nav>
                 </Col>

@@ -11,26 +11,73 @@ function GamePage() {
     const [dndGameQuestions, setDNDGameQuestions] = React.useState('');
     const [matchingGameQuestions, setMatchingGameQuestions] = React.useState('');
     const [AlertMessage, isAlertVisible, getProps, setAlertVisible] = Alert();
+    const [completedGames, setCompletedGames] = React.useState([]);
+    const [userFITBCount, setFITBCount] = React.useState('');
+    const [completedFITB, setCompletedFITB] = React.useState(false);
 
-        //Loads the data from database once
-        React.useEffect(()=> {
-
-            const loadGames = async () => {
-
-                if(cyoaGameQuestions.length === 0) {
-                    getGameQuestionsByType("0", setCYOAGameQuestions);
-                }
-                if(dndGameQuestions.length === 0) {
-                    getGameQuestionsByType("1", setDNDGameQuestions);
-                }
-                if(matchingGameQuestions.length === 0) {
-                    getGameQuestionsByType("2", setMatchingGameQuestions);
-                }
-            }
+    // Load completed games and other data
+    React.useEffect(() => {
+        // Function to load completed games
+        const loadCompletedGames = async () => {
+            apiRequest("/users/userInfo")
+            .then((res) => res.json())
+            .then((data) => {
+                setCompletedGames(data.data.dbUserData.gamescore);  // Set completed games from the user's profile
+                //Function that pulls the number of FITB games the user has completed
+                apiRequest("/games/getFITBCountByUser", {
+                    method: "POST",
+                    body:JSON.stringify({
+                    fitbList: data.data.dbUserData.gamescore
+                })})
+                .then((res)=>res.json())
+                .then(data=> {
+                    if (data.data[0] !== undefined && data.data[0].count !== undefined) {
+                        setFITBCount(data.data[0].count);
+                        //Function that pulls the number of FITB games
+                        apiRequest("/games/getFITBCount").then((res)=>res.json())
+                        .then(data=> {
+                            if (data.data[0] !== undefined && data.data[0].count !== undefined) {
+                                const maxFITBCountTemp = data.data[0].count;
+                                setCompletedFITB(userFITBCount === maxFITBCountTemp && maxFITBCountTemp !== 0 && maxFITBCountTemp !== "" ? true : false)
+                            }
+                        });
+                    }
+                });
+            })
+            .catch((error) => {
+                console.log("Failed to load completed games", error);
+            });
+        };
     
-            //Initial function call to load data
-            loadGames()
-        },[cyoaGameQuestions, dndGameQuestions, matchingGameQuestions])
+        //Loads the data from database once
+        const loadGames = async () => {
+
+            if(cyoaGameQuestions.length === 0) {
+                getGameQuestionsByType("0", setCYOAGameQuestions);
+            }
+            if(dndGameQuestions.length === 0) {
+                setDNDGameQuestions({data: [
+                    {_id: '641751cecf6320d07c6807ac', name: 'Asymmetric Encryption', link: 'https://rodriguezra.github.io/DragAndDropGroup/'},
+                    {_id: '641895c9a5e034a06454ce9c', name: 'Cybercrime Laws', link: 'https://rodriguezra.github.io/DragAndDropCyberCrimeLaws/'},
+                    {_id: '641cd84f38777ee89d579f5e', name: 'CIA', link: 'https://rodriguezra.github.io/DragAndDropCyberCIA/'},
+                    {_id: '641a28d4691dc3f257b5c5e5', name: 'Network Configuration Security and Fundamentals of Secure Design', link: 'https://rodriguezra.github.io/DragAndDropNetworkConfig/'},
+                    {_id: '642e243de553e294fc1238c8', name: 'Password Security', link: 'https://rodriguezra.github.io/DragAndDropPassword/'},
+                    {_id: '642c8ae0e23f3289a867dd60', name: 'Attack Tree', link: 'https://rodriguezra.github.io/DragAndDropCyberCrimeAttackTree/'},
+                    {_id: '641b59804db5d7f454573e57', name: 'SSH Handshake', link: 'https://rodriguezra.github.io/DragAndDropSSH/'}
+                ]});
+                // Use the line below to set DND Game Questions to old format
+                // getGameQuestionsByType("1", setDNDGameQuestions);
+            }
+            if(matchingGameQuestions.length === 0) {
+                getGameQuestionsByType("2", setMatchingGameQuestions);
+            }
+        }
+        
+        //Initial function call to load data
+        loadCompletedGames();
+        loadGames();
+    },[cyoaGameQuestions, dndGameQuestions, matchingGameQuestions])
+
 
     //Function call to backend to get the game questions by each type (CYOA, DND, MM)
     const getGameQuestionsByType = (type_, setGameQuestionData_) => {
@@ -38,6 +85,31 @@ function GamePage() {
           .then((data)=>{
             //Set the data retrieved to their respective state variables (e.g., set CYOA data to cyoaGameQuestions)
             setGameQuestionData_(data);
+        })
+    }
+    
+    // Function call to register the completion of a DND game
+    const registerDNDGameComplete = (e, dndGameId, dndGameLink) => {
+        e.preventDefault();
+
+        apiRequest("/users/updateScore", {
+            method: "POST",
+            body:JSON.stringify({
+                qid: dndGameId 
+            }),
+        }).then((res) => {
+            //If request was a success
+            if(res.status === 204) {
+                //Relocate the user to the DND game
+                window.location.href=dndGameLink;
+            }
+            else {
+                getProps({
+                    variant: "error",
+                    title: "Back-End Error",
+                    message: "Something went wrong with the back-end!",
+                });
+            }
         })
     }
 
@@ -51,14 +123,23 @@ function GamePage() {
     if(cyoaGameQuestions.length !== 0) {
         //Populate the CYOA card with every CYOA question
         for(let i = 0; i < cyoaGameQuestions.data.length; i++) {
-            cyoaQuestionDisplay.push(
-                <div key={i}>
-                    <a href={`./gameAdventure/${cyoaGameQuestions.data[i]._id}`} className="btn btn-primary">
-                          {cyoaGameQuestions.data[i].name}
-                    </a>
-                    <div style={spaceAfterQ} />
-                </div>
-            );
+            const currentGameId = cyoaGameQuestions.data[i]._id;
+
+            // Safeguard check to ensure the ID exists
+            if (currentGameId) {
+                // Check if the game is completed
+                let isCompleted = completedGames.includes(currentGameId);
+
+                cyoaQuestionDisplay.push(
+                    <div key={i}>
+                        <a href={`./gameAdventure/${currentGameId}`} 
+                        className={`btn ${isCompleted ? 'btn-completed' : 'btn-primary'}`}>
+                            {cyoaGameQuestions.data[i].name}
+                        </a>
+                        <div style={spaceAfterQ} />
+                    </div>
+                );
+            }
         }
     }
 
@@ -66,57 +147,51 @@ function GamePage() {
 
     //If DND game questions have been loaded from the backend
     if(dndGameQuestions.length !== 0) {
-        //Populate the DND card with every DND question
-        // for(let i = 0; i < dndGameQuestions.data.length; i++) {
-        //     dndQuestionDisplay.push(
-        //         <div key={i}>
-        //             <a href={`./gameDND/${dndGameQuestions.data[i]._id}`} className="btn btn-primary">
-        //                 {dndGameQuestions.data[i].name}
-        //             </a>
-        //             <div style={spaceAfterQ} />
-        //         </div>
-        //     );
-        // }
-        dndQuestionDisplay.push(
-            <div key={1}>
-                <a href="https://fernfeather.github.io/DragAndDropGroup/" class="btn btn-primary">Asymmetric Encryption</a>
-                <div style={spaceAfterQ} />
-    
-                <a href="https://fernfeather.github.io/DragAndDropCyberCrimeLaws/" class="btn btn-primary">Cybercrime Laws</a>
-                <div style={spaceAfterQ} />
-                    
-                <a href="https://fernfeather.github.io/DragAndDropNetworkConfig/" class="btn btn-primary">Network Configuration Security and Fundamentals of Secure Design</a>
-                <div style={spaceAfterQ} />
-    
-                <a href="https://fernfeather.github.io/DragAndDropSSH/" class="btn btn-primary">SSH Handshake</a>
-                <div style={spaceAfterQ} />
-    
-                <a href="https://fernfeather.github.io/DragAndDropCyberCIA/" class="btn btn-primary">CIA</a>
-                <div style={spaceAfterQ} />
-                    
-                <a href="https://fernfeather.github.io/DragAndDropCyberCrimeAttackTree/" class="btn btn-primary">Attack Tree</a>
-                <div style={spaceAfterQ} />
-    
-                <a href="https://fernfeather.github.io/DragAndDropPassword/" class="btn btn-primary">Password Security</a>
-                <div style={spaceAfterQ} />
-            </div>
-        );
+        // Populate the DND card with every DND question
+        for(let i = 0; i < dndGameQuestions.data.length; i++) {
+            const currentDNDGameId = dndGameQuestions.data[i]._id;
+            
+            // Safeguard check to ensure the ID exists
+            if (currentDNDGameId) {
+                // Check if the game is completed
+                let isCompleted = completedGames.includes(currentDNDGameId);
+                
+                dndQuestionDisplay.push(
+                    <div key={i}>
+                        {/* Original game format link was `./gameDND/${dndGameQuestions.data[i]._id}` */}
+                        <a href="javascript:;" onClick={e => registerDNDGameComplete(e, currentDNDGameId, dndGameQuestions.data[i].link)}
+                        className={`btn ${isCompleted ? 'btn-completed' : 'btn-primary'}`}>
+                            {dndGameQuestions.data[i].name}
+                        </a>
+                        <div style={spaceAfterQ} />
+                    </div>
+                );
+            }
+        }
     }
 
     let matchingQuestionDisplay = [];
 
-    //If MM game questions have been loaded from the backend
     if(matchingGameQuestions.length !== 0) {
-        //Populate the MM card with every MM question
+        // Populate the MMC card with every MMC question
         for(let i = 0; i < matchingGameQuestions.data.length; i++) {
-            matchingQuestionDisplay.push(
-                <div key={i}>
-                    <a href={`./gameMatching/${matchingGameQuestions.data[i]._id}`} className="btn btn-primary">
-                        {matchingGameQuestions.data[i].name}
-                    </a>
-                    <div style={spaceAfterQ} />
-                </div>
-            )
+            const currentMatchingGameId = matchingGameQuestions.data[i]._id;
+    
+            // Safeguard check to ensure the ID exists
+            if (currentMatchingGameId) {
+                // Check if the game is completed
+                let isCompleted = completedGames.includes(currentMatchingGameId);
+    
+                matchingQuestionDisplay.push(
+                    <div key={i}>
+                        <a href={`./gameMatching/${currentMatchingGameId}`} 
+                        className={`btn ${isCompleted ? 'btn-completed' : 'btn-primary'}`}>
+                            {matchingGameQuestions.data[i].name}
+                        </a>
+                        <div style={spaceAfterQ} />
+                    </div>
+                );
+            }
         }
     }
 
@@ -251,7 +326,7 @@ function GamePage() {
                     </p>
                     <button onClick={TraditionalInstructions} className="btn btn-primary orange">How To Play</button>
                     <div style={spaceAfterQ} />
-                    <a href="./gameTraditional" className="btn btn-primary">
+                    <a href="./gameTraditional" className={`btn ${completedFITB ? 'btn-completed' : 'btn-primary'}`}>
                         Fill in the Blank Games
                     </a>
                     <div>

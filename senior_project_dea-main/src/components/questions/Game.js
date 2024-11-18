@@ -305,6 +305,11 @@ function GamePage() {
                     <button onClick={MatchingInstructions} className="btn btn-primary orange">How To Play</button>
                     <div style={spaceAfterQ} />
                     {matchingQuestionDisplay}
+                    <div>
+                    </div>
+                    <a className="btn btn-more">
+                        More Games to Come!
+                    </a>
                 </div>
             </div>
             {/* This is the Fill in the Blank Card */}
@@ -323,6 +328,13 @@ function GamePage() {
                     <div style={spaceAfterQ} />
                     <a href="./gameTraditional" className={`btn ${completedFITB ? 'btn-completed' : 'btn-primary'}`}>
                         Fill in the Blank Games
+                    </a>
+                    <div>
+                        <h5>
+                        </h5>
+                    </div>
+                    <a className="btn btn-more">
+                        More Games to Come!
                     </a>
                 </div>
             </div>

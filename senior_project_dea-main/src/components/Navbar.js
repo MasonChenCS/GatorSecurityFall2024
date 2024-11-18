@@ -69,7 +69,7 @@ const navbarStyle = {
       <Container>
         <LinkContainer to="/welcome" style={navbarTitle}>
           <Navbar.Brand style={navbarTitle}>
-            Gator Security Fundamentals
+            <h3>Gator Security Fundamentals</h3>
           </Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

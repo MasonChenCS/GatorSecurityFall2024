@@ -6,6 +6,15 @@
     text-decoration: underline;
 }
 
+.h2-text {
+    font-family: 'Fantasy', serif;
+    color: #155287 !important;
+    font-size: 40px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    text-decoration: underline;
+}
+
 .tab-text {
     font-family: 'Times New Roman', Times, serif;
     padding: 30px;
@@ -17,6 +26,14 @@
 .link-text {
     color: #2C74B3 !important;
     font-size: 17px;
+    padding-bottom: 10px;
+    text-decoration: underline;
+}
+
+.h2-text {
+    font-family: 'Georgia', serif;
+    color: rgb(24, 141, 183) !important;
+    font-size: 40px;
     padding-bottom: 10px;
     text-decoration: underline;
 }

@@ -89,7 +89,7 @@ function LearnPage() {
 
   return (
     <div id="learndiv" style={container}>
-      <h4 className='h1-text'>Learn</h4>
+      <h3 className='h2-text'>Learn</h3>
 
       {/* Renders each of the 6 Traditional Question Categories */}
       <Tabs fill justify defaultActiveKey="first" style={tabs}>

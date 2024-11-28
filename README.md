@@ -90,8 +90,8 @@ _Follow steps above to navigate to root directory in EC2._
      - Replace `localhost` with the host's IP or domain
 5. Prepare the frontend for production deployment by creating a static build:
      - Navigate back to the project root directory (inside senior_project_dea-main): `cd ../`
-     - Generate the static build: `npm run build`
      - Clean install of dependencies: `npm ci`
+     - Generate the static build: `npm run build`
      - Install the static file server globally: `npm install -g serve`
 
 ### Updating the Deployed Application:

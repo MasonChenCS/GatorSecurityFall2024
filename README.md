@@ -83,12 +83,13 @@ NOTE: This setup is intended for development and testing only. For production de
 _Follow steps above to navigate to root directory in EC2._
 1. Remove the old fork: `rm -rf GatorSecurityFall2024`
 2. Clone new fork: `git clone [fork_url]`
-3. Install dependencies in `main` and `server` directories: `npm i`
-4. Modify the server IP address in Config.js to point to the host's IP (e.g., the production server's public IP or domain name):
+3. Install dependencies in `senior_project_dea-main` and `senior_project_dea-main/server` directories: `npm i`
+4. Add private .env file to `senior_project_dea-main/server` directory
+5. Modify the server IP address in Config.js to point to the host's IP (e.g., the production server's public IP or domain name):
      - Navigate to the src directory: `cd senior_project_dea-main/src`
      - Open Config.js for editing: `nano Config.js`
      - Replace `localhost` with the host's IP or domain
-5. Prepare the frontend for production deployment by creating a static build:
+6. Prepare the frontend for production deployment by creating a static build:
      - Navigate back to the project root directory (inside senior_project_dea-main): `cd ../`
      - Clean install of dependencies: `npm ci`
      - Generate the static build: `npm run build`

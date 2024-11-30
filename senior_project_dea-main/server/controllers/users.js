@@ -272,16 +272,20 @@ const checkPrivileges = (async (req, res) => {
     //Check administrative privileges
     const admin = await privileges.isAdmin(req);
 
-    if(Number(admin) === Number(1)) {
-        res.send({status: 200});
-    }
-    else if(admin === 2) {
-        res.sendStatus(500);
-        return;
-    }
-    else {
-        res.sendStatus(403);
-        return;
+    if (Number(admin) === 1) {
+        // Return HTTP 200 with admin status
+        return res.status(200).json({ isAdmin: true, message: "User is an admin" });
+    } else if (Number(admin) === 0) {
+        // Return HTTP 200 with non-admin status
+        return res.status(200).json({ isAdmin: false, message: "User is not an admin" });
+    } else if (Number(admin) === 2) {
+        // Return HTTP 500 for server error
+        console.error("An internal server error occurred while checking privileges.");
+        return res.status(500).json({ error: "Internal server error" });
+    } else {
+        // Handle unexpected return values
+        console.error(`Unexpected return value from isAdmin: ${admin}`);
+        return res.status(500).json({ error: "Unexpected server error" });
     }
 })
 /**

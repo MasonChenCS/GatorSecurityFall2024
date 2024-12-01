@@ -28,8 +28,34 @@ echo "Starting the backend server..."
 # Wait for services to start
 echo "Waiting for services to start..."
 sleep 5
-if ! curl -s http://localhost:3000 >/dev/null; then
-  echo "Error: Frontend is not responding on port 3000."
+
+# Set up Nginx to proxy requests on port 80 to port 3000
+echo "Configuring Nginx..."
+sudo rm -f /etc/nginx/sites-enabled/default
+echo "
+server {
+    listen 80;
+    server_name gatorsecurity.org;  # Replace with your actual domain or IP address
+    
+    location / {
+        proxy_pass http://localhost:3000;  # Forward traffic to port 3000 where React is running
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
+    }
+}
+" | sudo tee /etc/nginx/sites-available/default
+
+# Restart Nginx to apply the changes
+echo "Restarting Nginx..."
+sudo systemctl restart nginx
+
+# Check if frontend and backend are running
+echo "Checking if services are responding..."
+if ! curl -s http://localhost:80 >/dev/null; then
+  echo "Error: Frontend is not responding on port 80."
   exit 1
 fi
 

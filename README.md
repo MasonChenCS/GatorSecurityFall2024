@@ -102,7 +102,7 @@ To deploy, simply run `./deploy.sh`
 
 
 ### Updating the Deployed Application:
-1. If the application is running, first kill it: `lsof -i: 3000 && lsof -i: 5000` to check and `sudo kill [pid]` to kill
+1. If the application is running, first kill it: `lsof -i:3000 && lsof -i:5000` to check and `sudo kill [pid]` to kill
 2. Navigate to the root directory of your GitHub fork and pull the latest changes: `git pull origin main`
 3. Clean install of dependencies in main/server directories: `rm -rf node_modules && yarn install`
 4. Navigate to `senior_project_dea-main` and rebuild the static frontend files: `yarn build`

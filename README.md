@@ -83,22 +83,29 @@ NOTE: This setup is intended for development and testing only. For production de
 _Follow steps above to navigate to root directory in EC2._
 1. Remove the old fork: `rm -rf GatorSecurityFall2024`
 2. Clone new fork: `git clone [fork_url]`
-3. Install dependencies in `senior_project_dea-main` and `senior_project_dea-main/server` directories: `yarn install` *USE YARN NOT NPM*
-4. Add private .env file to `senior_project_dea-main/server` directory
-5. Modify the server IP address in Config.js to point to the host's IP (e.g., the production server's public IP or domain name):
-     - Navigate to the src directory: `cd senior_project_dea-main/src`
-     - Open Config.js for editing: `nano Config.js`
+3. Install dependencies:
+     - `cd GatorSecurityFall2024/senior_project_dea-main && yarn install` 
+     - `cd server && yarn install`
+5. Add private .env file with details provided:
+     - `touch .end && nano .env`
+6. Modify the server IP address in Config.js to point to the host's IP (e.g., the production server's public IP or domain name):
+     - `cd ../src && nano Config.js`
      - Replace `localhost` with the host's IP or domain
-6. Prepare the frontend for production deployment by creating a static build:
-     - Navigate back to the project root directory (inside senior_project_dea-main): `cd ../`
-     - Clean install of dependencies: `rm -rf node_modules && yarn install`
+7. Prepare the frontend for production deployment by creating a static build:
+     - Navigate back to the main directory (inside senior_project_dea-main): `cd ../`
      - Generate the static build: `yarn build`
      - Install the static file server globally: `yarn global add serve`
+8. Provide permissions to ./deploy.sh
+     - Navigate back to the root directory: `cd ../`
+     - `sudo chmod +x deploy.sh`
+To deploy, simply run `./deploy.sh`
+
 
 ### Updating the Deployed Application:
-1. If the application is running, first kill it
+1. If the application is running, first kill it: `lsof -i: 3000 && lsof -i: 5000` to check and `sudo kill [pid]` to kill
 2. Navigate to the root directory of your GitHub fork and pull the latest changes: `git pull origin main`
-3. Navigate to `senior_project_dea-main` and rebuild the static frontend files: `npm run build`
+3. Clean install of dependencies in main/server directories: `rm -rf node_modules && yarn install`
+4. Navigate to `senior_project_dea-main` and rebuild the static frontend files: `yarn build`
 5. Navigate back to the root directory of your GitHub fork and redeploy the application: `./deploy.sh`
 
 # About the Included Database    

@@ -83,7 +83,7 @@ NOTE: This setup is intended for development and testing only. For production de
 _Follow steps above to navigate to root directory in EC2._
 1. Remove the old fork: `rm -rf GatorSecurityFall2024`
 2. Clone new fork: `git clone [fork_url]`
-3. Install dependencies in `senior_project_dea-main` and `senior_project_dea-main/server` directories: `yarn i` *USE YARN NOT NPM*
+3. Install dependencies in `senior_project_dea-main` and `senior_project_dea-main/server` directories: `yarn install` *USE YARN NOT NPM*
 4. Add private .env file to `senior_project_dea-main/server` directory
 5. Modify the server IP address in Config.js to point to the host's IP (e.g., the production server's public IP or domain name):
      - Navigate to the src directory: `cd senior_project_dea-main/src`
@@ -91,7 +91,7 @@ _Follow steps above to navigate to root directory in EC2._
      - Replace `localhost` with the host's IP or domain
 6. Prepare the frontend for production deployment by creating a static build:
      - Navigate back to the project root directory (inside senior_project_dea-main): `cd ../`
-     - Clean install of dependencies: `rm -rf node_modules | yarn install`
+     - Clean install of dependencies: `rm -rf node_modules && yarn install`
      - Generate the static build: `yarn build`
      - Install the static file server globally: `yarn global add serve`
 

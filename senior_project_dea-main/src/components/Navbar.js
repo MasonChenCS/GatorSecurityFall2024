@@ -16,10 +16,11 @@ function MyNavbar() {
     //Function that checks if user is an admin via backend request
     async function adminStatus() {
       const response = apiRequest("/users/checkPrivileges")
+      const data = await (await response).json();
       
       //If user is an admin, set adminstatus to true
       if ((await response).status === 200) {
-        setIsAdmin(true);
+        setIsAdmin(data.isAdmin);
       }
       //Else user is not an admin, set adminstatus to false
       else {

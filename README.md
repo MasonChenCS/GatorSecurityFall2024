@@ -104,9 +104,9 @@ To deploy, simply run `./deploy.sh`
 ### Updating the Deployed Application:
 1. If the application is running, first kill it: `lsof -i:3000 && lsof -i:5000` to check and `sudo kill [pid]` to kill
 2. Navigate to the root directory of your GitHub fork and pull the latest changes: `git pull origin main`
-3. Clean install of dependencies in main/server directories: `rm -rf node_modules && yarn install`
-4. Navigate to `senior_project_dea-main` and rebuild the static frontend files: `yarn build`
-5. Navigate back to the root directory of your GitHub fork and redeploy the application: `./deploy.sh`
+   - If needed, complete a clean install of dependencies in main/server directories: `rm -rf node_modules && yarn install`
+5. Navigate to `senior_project_dea-main` and rebuild the static frontend files: `yarn build`
+6. Navigate back to the root directory of your GitHub fork and redeploy the application: `./deploy.sh`
 
 # About the Included Database    
 A database dump with an existing admin user and questions is included with distributions of this project. To see how to import this database dump, refer to `MongoDB Setup.pdf` in the Resources folder found in the root folder of this repository. The `Gator_Security_DB_Dump.zip` referred to in this document can be found in the same Resources folder.         
